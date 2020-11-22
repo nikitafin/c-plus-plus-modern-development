@@ -4,8 +4,17 @@
 class Rational {
  public:
   Rational() : numerator(0), denominator(1) {}
-  Rational(int numerator, int denominator){
-
+  Rational(int newNumerator, int newDenominator) {
+    if (newNumerator == 0) {
+      numerator = 0;
+      denominator = 1;
+    } else {
+      int sign = ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1 : -1;
+      int gcd = std::gcd(newNumerator, newDenominator);
+      numerator = std::abs(newNumerator / gcd);
+      numerator *= sign;
+      denominator = std::abs(newDenominator / gcd);
+    }
   }
 
   int Numerator() const { return numerator; }

@@ -1,0 +1,5 @@
+.ide
+.vscode
+bins
+build
+cmale-build-debug
