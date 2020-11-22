@@ -14,8 +14,10 @@ set(s-3 3.class-function-2.cpp)
 set(s-4 4.working-with-files.cpp)
 set(s-5 5.conclusion-with-precision.cpp)
 set(s-6 6.reading-and-dumping-a-table.cpp)
+set(s-7 7.students-list.cpp)
+set(s-8 8.rational.cpp)
 
-set(current ${s-6})
+set(current ${s-8})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins/${current})
 add_executable(week-4 ${current})
