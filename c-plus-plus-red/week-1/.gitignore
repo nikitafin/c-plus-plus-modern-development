@@ -1,0 +1,4 @@
+.gradle
+.idea
+cmake-build-debug
+bins
