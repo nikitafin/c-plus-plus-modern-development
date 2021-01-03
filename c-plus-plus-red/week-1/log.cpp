@@ -13,30 +13,32 @@ public:
   void SetLogLine(bool value) { log_line = value; }
   void SetLogFile(bool value) { log_file = value; }
 
-  bool LogLine() const { return log_line; }
-  bool LogFile() const { return log_file; }
-
-  std::ostream &GetOs() { return os; }
+  void FileName(const std::string &new_file_name) { file_name = new_file_name; }
+  void LineNum(int new_line_num) { line_num = new_line_num; }
 
   void Log(const string &message) {
+    if (log_file and log_line) {
+      os << file_name << ":" << line_num << " ";
+    } else if (log_file and not log_line) {
+      os << file_name << " ";
+    } else if (not log_file and log_line) {
+      os << "Line " << line_num << " ";
+    }
     os << message << std::endl;
   }
 
 private:
   ostream &os;
+  std::string file_name;
+  int line_num;
   bool log_line = false;
   bool log_file = false;
 };
 
-#define LOG(logger, message) {                          \
-   if (logger.LogFile() and logger.LogLine()){          \
-      logger.GetOs() << __FILE__ << ":" << __LINE__ << " ";    \
-   }else if (logger.LogFile() and !logger.LogLine()){   \
-      logger.GetOs() << __FILE__ << " ";                       \
-   }else if (!logger.LogFile() and logger.LogLine()){   \
-    logger.GetOs() << "Line " << __LINE__ << " ";              \
-   }                                                    \
-   logger.Log(message);                                 \
+#define LOG(logger, message) { \
+   logger.FileName(__FILE__);  \
+   logger.LineNum(__LINE__);   \
+   logger.Log(message);        \
 }
 
 void TestLog() {
