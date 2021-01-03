@@ -12,7 +12,11 @@ set(s-1 log.cpp)
 
 set(current ${s-1})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins/${current})
+
+get_filename_component(name ${current} NAME_WLE)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
+
 add_executable(week_1 ${current})
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${current})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name}.out)
 include_directories(../../stuff)
