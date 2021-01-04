@@ -10,9 +10,9 @@ set(CMAKE_CXX_FLAGS "${CXX_FLAGS_PART1} ${CXX_FLAGS_PART2} ${CXX_FLAGS_PART3}")
 
 set(s-1 1.log/log.cpp)
 set(s-2 2.comparator-generator/comparator-generator.cpp)
+set(s-3 3.update-field/update_field.cpp)
 
-set(current ${s-2})
-
+set(current ${s-3})
 
 get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
