@@ -14,8 +14,9 @@ set(s-3 3.update-field/update_field.cpp)
 set(s-4 4.bad-macros/bad.cpp)
 set(s-5 5.unique-token/uniq_id.cpp)
 set(s-6 6.table/table.cpp)
+set(s-7 7.dequeue/main.cpp)
 
-set(current ${s-6})
+set(current ${s-7})
 
 get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
