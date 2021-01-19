@@ -14,14 +14,15 @@ set(s-3 3.update-field/update_field.cpp)
 set(s-4 4.bad-macros/bad.cpp)
 set(s-5 5.unique-token/uniq_id.cpp)
 set(s-6 6.table/table.cpp)
-set(s-7 7.dequeue/main.cpp)
+set(s-7 7.dequeue/main.cpp 7.dequeue/deque.hpp)
 
 set(current ${s-7})
 
-get_filename_component(name ${current} NAME_WLE)
+#get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
 
 add_executable(week_1 ${current})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name}.out)
+#set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name}.out)
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME a)
 include_directories(../../stuff)
