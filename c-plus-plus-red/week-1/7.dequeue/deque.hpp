@@ -37,11 +37,10 @@ size_t Deque<type>::Size() const {
 }
 template<typename type>
 const type &Deque<type>::operator[](size_t index) const {
-  if (index > front.size() - 1) {
-    return back[index - front.size()];
-  } else {
-    return front[front.size() - 1 - index];
+  if (index < front.size()) {
+    return front[front.size() - index - 1];
   }
+  return back[index - front.size()];
 }
 template<typename type>
 type &Deque<type>::operator[](size_t index) {
@@ -51,13 +50,13 @@ type &Deque<type>::operator[](size_t index) {
 }
 template<typename type>
 const type &Deque<type>::At(size_t index) const {
-  if (index > front.size() - 1) {
-    if (index > back.size()) {
+  if (index < front.size()) {
+    return front[front.size() - index - 1];
+  } else {
+    if (index - front.size() + 1 > back.size()) {
       throw std::out_of_range("out of range");
     }
     return back[index - front.size()];
-  } else {
-    return front[front.size() - 1 - index];
   }
 }
 template<typename type>
@@ -68,19 +67,29 @@ type &Deque<type>::At(size_t index) {
 }
 template<typename type>
 const type &Deque<type>::Front() const {
-  return front.back();
+  if (!front.empty()) {
+    return front.back();
+  }
+  return back.front();
 }
 template<typename type>
 type &Deque<type>::Front() {
-  return front.back();
+  return const_cast<type &>(
+      static_cast<const Deque &>(*this).Front()
+  );
 }
 template<typename type>
 const type &Deque<type>::Back() const {
-  return back.back();
+  if (!back.empty()) {
+    return back.back();
+  }
+  return front.front();
 }
 template<typename type>
 type &Deque<type>::Back() {
-  return back.back();
+  return const_cast<type &>(
+      static_cast<const Deque &>(*this).Back()
+  );
 }
 template<typename type>
 void Deque<type>::PushFront(const type &element) {
