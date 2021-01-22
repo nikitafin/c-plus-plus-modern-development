@@ -8,6 +8,7 @@ set(CXX_FLAGS_PART3 "-Wsign-conversion -Wsign-promo")
 
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS_PART1} ${CXX_FLAGS_PART2} ${CXX_FLAGS_PART3}")
 
+set(s-0 0.test-task/max_element_if.cpp)
 set(s-1 1.log/log.cpp)
 set(s-2 2.comparator-generator/comparator-generator.cpp)
 set(s-3 3.update-field/update_field.cpp)
@@ -15,14 +16,18 @@ set(s-4 4.bad-macros/bad.cpp)
 set(s-5 5.unique-token/uniq_id.cpp)
 set(s-6 6.table/table.cpp)
 set(s-7 7.dequeue/main.cpp 7.dequeue/deque.hpp)
+set(s-8 8.Paginator/paginator.cpp)
 
-set(current ${s-7})
+set(current ${s-0})
 
-#get_filename_component(name ${current} NAME_WLE)
+get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
 
 add_executable(week_1 ${current})
 
-#set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name}.out)
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME a)
+if (${WIN32})
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name})
+else ()
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${name}.out)
+endif ()
 include_directories(../../stuff)
