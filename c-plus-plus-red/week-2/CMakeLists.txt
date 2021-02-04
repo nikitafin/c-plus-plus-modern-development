@@ -12,8 +12,9 @@ set(s-1 1.sort-students/sort_students.cpp 1.sort-students/student.h)
 set(s-2 2.learner/learner.cpp)
 set(s-3 3.express-routing/slow.cpp)
 set(s-4 4.ebook/slow.cpp)
+set(s-5 5.hotel-reservation-system/hotel.cpp)
 
-set(current ${s-4})
+set(current ${s-5})
 
 #set(name "bin")
 get_filename_component(name ${current} NAME_WLE)
