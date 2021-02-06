@@ -92,6 +92,5 @@ void TestObjectPool() {
 int main() {
   TestRunner tr;
   RUN_TEST(tr, TestObjectPool);
-
   return 0;
 }
