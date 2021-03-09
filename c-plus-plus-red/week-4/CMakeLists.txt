@@ -13,9 +13,11 @@ set(s-2 2.stack-vector/stack_vector.cpp)
 set(s-3 3.translator/translator.cpp)
 set(s-4 4.airport-counter/airport-counter.cpp)
 set(s-5 5.basic-text-editor/text_editor.cpp)
+set(s-6 6.server-stats/stats.cpp)
+set(s-6-add 6.server-stats/server_stats.cpp 6.server-stats/stats.h 6.server-stats/http_request.h)
 
-set(current ${s-5})
-#set(inc 2.stack-vector/stack_vector.h)
+set(current ${s-6})
+set(inc ${s-6-add})
 
 get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
