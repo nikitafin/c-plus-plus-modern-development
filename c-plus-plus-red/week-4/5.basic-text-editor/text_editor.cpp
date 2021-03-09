@@ -12,11 +12,6 @@ class Editor {
   std::list<char> text;
   std::list<char> buffer;
   std::list<char>::iterator cursorPosition;
-  //  size_t cursorPosition;
-  //  std::string text;
-  //  std::string buffer;
-
-  //  std::string::iterator cursorPosition;
 
  public:
   // Реализуйте конструктор по умолчанию и объявленные методы
@@ -64,12 +59,7 @@ class Editor {
 
   void Paste() {
     cursorPosition = text.insert(cursorPosition, buffer.begin(), buffer.end());
-    //    ++cursorPosition;
-    //    text.splice(cursorPosition, buffer);
-
     cursorPosition = std::next(cursorPosition, buffer.size());
-    //    text.insert(cursorPosition, buffer);
-    //    cursorPosition += buffer.size();
   }
 
   std::string GetText() const { return {text.begin(), text.end()}; }
