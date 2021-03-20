@@ -7,62 +7,48 @@
 
 #include "test_runner.h"
 
-using namespace std;
-
 template <typename RandomIt>
 void MakeJosephusPermutation(RandomIt first, RandomIt last,
                              uint32_t step_size) {
-  vector<typename RandomIt::value_type> pool(first, last);
+  std::list<typename RandomIt::value_type> pool;
+  for (auto it = first; it != last; ++it) {
+    pool.push_back(std::move(*it));
+  }
+
+  auto it_pos = pool.begin();
   size_t cur_pos = 0;
   while (!pool.empty()) {
-    *(first++) = pool[cur_pos];
-    pool.erase(pool.begin() + cur_pos);
+    *(first++) = std::move(*it_pos);
+
+    it_pos = pool.erase(it_pos);
     if (pool.empty()) {
       break;
     }
-    cur_pos = (cur_pos + step_size - 1) % pool.size();
+    auto next_pos = (cur_pos + step_size - 1) % pool.size();
+    auto distance = next_pos - cur_pos;
+    it_pos = std::next(it_pos, distance);
+    cur_pos = next_pos;
   }
 }
 
-template <typename RandomIt>
-void MakeJosephusPermutation_(RandomIt first, RandomIt last,
-                              uint32_t step_size) {
-  //  vector<typename RandomIt::value_type> pool_(first, last);
-  std::list<typename RandomIt::value_type> pool{first, last};
-
-  auto cur_pos = pool.begin();
-  while (!pool.empty()) {
-    *(first++) = *cur_pos;
-
-    size_t valid_length =
-        static_cast<size_t>(std::distance(cur_pos, pool.end()));
-    //    pool.erase(std::next(pool.begin(), cur_pos));
-    //      if (pool.empty()) {
-    //          break;
-    //      }
-    //      cur_pos = (cur_pos + step_size - 1) % pool.size();
-  }
-
-  return;
-}
-
-vector<int> MakeTestVector() {
-  vector<int> numbers(10);
+std::vector<int> MakeTestVector() {
+  std::vector<int> numbers(10);
   iota(begin(numbers), end(numbers), 0);
   return numbers;
 }
 
 void TestIntVector() {
-  const vector<int> numbers = MakeTestVector();
+  const std::vector<int> numbers = MakeTestVector();
   {
-    vector<int> numbers_copy = numbers;
-    MakeJosephusPermutation_(begin(numbers_copy), end(numbers_copy), 1);
+    std::vector<int> numbers_copy = numbers;
+    MakeJosephusPermutation(begin(numbers_copy), end(numbers_copy), 1);
     ASSERT_EQUAL(numbers_copy, numbers);
   }
   {
-    vector<int> numbers_copy = numbers;
-    MakeJosephusPermutation_(begin(numbers_copy), end(numbers_copy), 3);
-    ASSERT_EQUAL(numbers_copy, vector<int>({0, 3, 6, 9, 4, 8, 5, 2, 7, 1}));
+    std::vector<int> numbers_copy = numbers;
+    MakeJosephusPermutation(begin(numbers_copy), end(numbers_copy), 3);
+    ASSERT_EQUAL(numbers_copy,
+                 std::vector<int>({0, 3, 6, 9, 4, 8, 5, 2, 7, 1}));
   }
 }
 
@@ -82,21 +68,21 @@ bool operator==(const NoncopyableInt& lhs, const NoncopyableInt& rhs) {
   return lhs.value == rhs.value;
 }
 
-ostream& operator<<(ostream& os, const NoncopyableInt& v) {
+std::ostream& operator<<(std::ostream& os, const NoncopyableInt& v) {
   return os << v.value;
 }
 
 void TestAvoidsCopying() {
-  vector<NoncopyableInt> numbers;
+  std::vector<NoncopyableInt> numbers;
   numbers.push_back({1});
   numbers.push_back({2});
   numbers.push_back({3});
   numbers.push_back({4});
   numbers.push_back({5});
 
-  //  MakeJosephusPermutation(begin(numbers), end(numbers), 2);
+  MakeJosephusPermutation(begin(numbers), end(numbers), 2);
 
-  vector<NoncopyableInt> expected;
+  std::vector<NoncopyableInt> expected;
   expected.push_back({1});
   expected.push_back({3});
   expected.push_back({5});
@@ -109,6 +95,6 @@ void TestAvoidsCopying() {
 int main() {
   TestRunner tr;
   RUN_TEST(tr, TestIntVector);
-  //  RUN_TEST(tr, TestAvoidsCopying);
+  RUN_TEST(tr, TestAvoidsCopying);
   return 0;
 }
