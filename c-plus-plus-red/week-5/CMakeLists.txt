@@ -9,8 +9,9 @@ set(CXX_FLAGS_PART3 "-Wsign-conversion -Wsign-promo")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS_PART1} ${CXX_FLAGS_PART2} ${CXX_FLAGS_PART3}")
 
 set(s-1 1.josephus_permutation.cpp)
+set(s-2 2.group_heavy_strings.cpp)
 
-set(current ${s-1})
+set(current ${s-2})
 set(inc})
 
 get_filename_component(name ${current} NAME_WLE)
