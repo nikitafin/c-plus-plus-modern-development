@@ -10,9 +10,11 @@ set(CMAKE_CXX_FLAGS "${CXX_FLAGS_PART1} ${CXX_FLAGS_PART2} ${CXX_FLAGS_PART3}")
 
 set(s-1 1.josephus_permutation.cpp)
 set(s-2 2.group_heavy_strings.cpp)
+set(s-3 3.simple_vector_copy_assignment.cpp)
+set(s-3-inc simple_vector.h)
 
-set(current ${s-2})
-set(inc})
+set(current ${s-3})
+set(inc ${s-3-inc})
 
 get_filename_component(name ${current} NAME_WLE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bins)
