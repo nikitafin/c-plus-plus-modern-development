@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.19)
 project(week_1)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_COMPILER "clang++-12")
+if (UNIX)
+    set(CMAKE_CXX_COMPILER "clang++-12")
+endif (UNIX)
 
 set(CXX_FLAGS_PART1 "-Wall -Wextra -Wpedantic -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy")
 set(CXX_FLAGS_PART2 "-Wextra-semi -Wfloat-equal -Wlogical-not-parentheses -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wredundant-decls")
