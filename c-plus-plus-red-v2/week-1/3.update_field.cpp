@@ -72,13 +72,13 @@ operator!=(const Time &lhs, const Time &rhs)
     return !(lhs==rhs);
 }
 
-#define UPDATE_FIELD(ticket, field, values){ \
-  if (values.count(#field)){                   \
+#define UPDATE_FIELD(ticket, field, values){\
+  if ((values).count(#field)){                \
     std::stringstream is;                   \
-    is << values.at(#field);                                        \
-    is >> ticket.field;            \
-  }                                             \
-}  // Реализуйте этот макрос, а также необходимые операторы для классов Date и Time
+    is << (values).at(#field);                \
+    is >> (ticket).field;                     \
+  }                                         \
+}
 
 void
 TestUpdate()
@@ -107,8 +107,6 @@ TestUpdate()
     UPDATE_FIELD(t, arrival_time, updates2);
     UPDATE_FIELD(t, price, updates2);
 
-    // updates2 не содержит ключей "departure_date" и "departure_time", поэтому
-    // значения этих полей не должны измениться
     ASSERT_EQUAL(t.departure_date, (Date{2018, 2, 28}));
     ASSERT_EQUAL(t.departure_time, (Time{17, 40}));
     ASSERT_EQUAL(t.price, 12550);
