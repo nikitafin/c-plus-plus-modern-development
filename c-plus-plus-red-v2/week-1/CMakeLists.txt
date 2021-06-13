@@ -12,6 +12,6 @@ set(CXX_FLAGS_PART3 "-Wsign-conversion -Wsign-promo")
 
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS_PART1} ${CXX_FLAGS_PART2} ${CXX_FLAGS_PART3}")
 
-add_executable(week_1 3.update_field.cpp)
+add_executable(week_1 5.uniq_id.cpp)
 
 include_directories(../../stuff)
