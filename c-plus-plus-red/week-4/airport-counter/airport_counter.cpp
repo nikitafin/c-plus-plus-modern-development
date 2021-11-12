@@ -4,24 +4,33 @@
 #include <algorithm>
 #include <array>
 #include <iostream>
-#include <map>
 #include <random>
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 using namespace std;
 
 // TAirport should be enum with sequential items and last item TAirport::Last_
-template <typename TAirport>
+template<typename TAirport>
 class AirportCounter {
 public:
+  using Item = pair<TAirport, size_t>;
+  using Items = std::array<Item, static_cast<uint32_t>(TAirport::Last_)>;
   // конструктор по умолчанию: список элементов пока пуст
-  AirportCounter() {}
+  AirportCounter() {
+    for (size_t i = 0; i < airportCount.size(); ++i) {
+      airportCount[i].first = static_cast<TAirport>(i);
+    }
+  }
 
   // конструктор от диапазона элементов типа TAirport
-  template <typename TIterator> AirportCounter(TIterator begin, TIterator end) {
-    for (auto it = begin; it != end; ++it) {
-      ++airportCount[int(*it)].second;
+  template<typename TIterator> AirportCounter(TIterator begin, TIterator end) {
+    for (size_t i = 0; i < airportCount.size(); ++i) {
+      airportCount[i].first = static_cast<TAirport>(i);
+    }
+
+    for (TIterator it = begin; it != end; ++it) {
+      ++airportCount[static_cast<int>(*it)].second;
     }
   }
 
@@ -38,9 +47,6 @@ public:
 
   // удалить все вхождения данного элемента
   void EraseAll(TAirport airport) { airportCount[int(airport)].second = 0; }
-
-  using Item = pair<TAirport, size_t>;
-  using Items = std::array<Item, static_cast<uint32_t>(TAirport::Last_)>;
 
   // получить некоторый объект, по которому можно проитерироваться,
   // получив набор объектов типа Item - пар (аэропорт, количество),
@@ -75,7 +81,7 @@ void TestMoscow() {
 
   using Item = AirportCounter<MoscowAirport>::Item;
   vector<Item> items;
-  for (const auto& item : airport_counter.GetItems()) {
+  for (const auto &item: airport_counter.GetItems()) {
     items.push_back(item);
   }
   ASSERT_EQUAL(items.size(), 4);
@@ -123,11 +129,11 @@ enum class SmallCountryAirports {
 void TestManyConstructions() {
   default_random_engine rnd(20180623);
   uniform_int_distribution<size_t> gen_airport(
-    0, static_cast<size_t>(SmallCountryAirports::Last_) - 1
+      0, static_cast<size_t>(SmallCountryAirports::Last_) - 1
   );
 
   array<SmallCountryAirports, 2> airports;
-  for (auto& x : airports) {
+  for (auto &x: airports) {
     x = static_cast<SmallCountryAirports>(gen_airport(rnd));
   }
 
@@ -149,11 +155,11 @@ enum class SmallTownAirports {
 void TestManyGetItems() {
   default_random_engine rnd(20180701);
   uniform_int_distribution<size_t> gen_airport(
-    0, static_cast<size_t>(SmallTownAirports::Last_) - 1
+      0, static_cast<size_t>(SmallTownAirports::Last_) - 1
   );
 
   array<SmallTownAirports, 2> airports;
-  for (auto& x : airports) {
+  for (auto &x: airports) {
     x = static_cast<SmallTownAirports>(gen_airport(rnd));
   }
 
@@ -161,7 +167,7 @@ void TestManyGetItems() {
   for (int step = 0; step < 100'000'000; ++step) {
     AirportCounter<SmallTownAirports> counter(begin(airports), end(airports));
     total += counter.Get(SmallTownAirports::Airport_1);
-    for (const auto [airport, count] : counter.GetItems()) {
+    for (const auto[airport, count]: counter.GetItems()) {
       total += count;
     }
   }
@@ -172,14 +178,14 @@ void TestManyGetItems() {
 void TestMostPopularAirport() {
   default_random_engine rnd(20180624);
   uniform_int_distribution<size_t> gen_airport(
-    0, static_cast<size_t>(SmallCountryAirports::Last_) - 1
+      0, static_cast<size_t>(SmallCountryAirports::Last_) - 1
   );
 
   array<pair<SmallCountryAirports, SmallCountryAirports>, 1000> dayly_flight_report;
-  for (auto& x : dayly_flight_report) {
+  for (auto &x: dayly_flight_report) {
     x = {
-      static_cast<SmallCountryAirports>(gen_airport(rnd)),
-      static_cast<SmallCountryAirports>(gen_airport(rnd))
+        static_cast<SmallCountryAirports>(gen_airport(rnd)),
+        static_cast<SmallCountryAirports>(gen_airport(rnd))
     };
   }
 
@@ -189,7 +195,7 @@ void TestMostPopularAirport() {
 
   for (int day = 0; day < days_to_explore; ++day) {
     AirportCounter<SmallCountryAirports> counter;
-    for (const auto& [source, dest] : dayly_flight_report) {
+    for (const auto&[source, dest]: dayly_flight_report) {
       counter.Insert(source);
       counter.Insert(dest);
     }
@@ -212,7 +218,7 @@ int main() {
   // двух секунд. Если ваше время будет лишь чуть больше двух секунд,
   // попробуйте отправить ваше решение в тестирующую систему. Возможно,
   // там более мощное железо, и ваше решение будет принято.
-  
+
   // Кроме того, не забудьте включить оптимизации при компиляции кода.
 
   LOG_DURATION("Total tests duration");

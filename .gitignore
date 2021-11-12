@@ -392,3 +392,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+0Build/
+1Build/
