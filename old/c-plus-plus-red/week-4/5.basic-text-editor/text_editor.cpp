@@ -8,12 +8,12 @@
 // using namespace std;
 
 class Editor {
- private:
+private:
   std::list<char> text;
   std::list<char> buffer;
   std::list<char>::iterator cursorPosition;
 
- public:
+public:
   // Реализуйте конструктор по умолчанию и объявленные методы
   Editor() : text{}, buffer{}, cursorPosition{text.end()} {}
 
@@ -65,8 +65,8 @@ class Editor {
   std::string GetText() const { return {text.begin(), text.end()}; }
 };
 
-void TypeText(Editor& editor, const std::string& text) {
-  for (char c : text) {
+void TypeText(Editor &editor, const std::string &text) {
+  for (char c: text) {
     editor.Insert(c);
   }
 }
@@ -113,7 +113,7 @@ void TestReverse() {
   Editor editor;
 
   const std::string text = "esreveR";
-  for (char c : text) {
+  for (char c: text) {
     editor.Insert(c);
     editor.Left();
   }

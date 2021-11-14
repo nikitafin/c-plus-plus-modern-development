@@ -12,7 +12,7 @@ auto operator<(const sportsman &lhs, const sportsman &rhs) -> bool {
 }
 
 class sportsman_queue {
- public:
+public:
   auto add(const sportsman &s) -> void {
     if (sportsman_numbers.count(s.next) == 0) {
       sorted_sportsman.push_back(s.number);
@@ -22,7 +22,7 @@ class sportsman_queue {
 
     sportsman_numbers.insert(s.number);
   }
- private:
+private:
   std::list<int> sorted_sportsman;
   std::unordered_set<int> sportsman_numbers;
 };

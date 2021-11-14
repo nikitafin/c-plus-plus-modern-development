@@ -6,14 +6,16 @@
 #include <vector>
 
 class Rational {
- public:
+public:
   Rational() : numerator(0), denominator(1) {}
   Rational(int newNumerator, int newDenominator) {
     if (newNumerator == 0) {
       numerator = 0;
       denominator = 1;
     } else {
-      int sign = ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1 : -1;
+      int sign =
+          ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1
+                                                                                                 : -1;
       int gcd = std::gcd(newNumerator, newDenominator);
       numerator = std::abs(newNumerator / gcd);
       numerator *= sign;
@@ -24,40 +26,40 @@ class Rational {
   int Numerator() const { return numerator; }
   int Denominator() const { return denominator; }
 
- private:
+private:
   int numerator;
   int denominator;
 };
 
-bool operator==(const Rational& lhs, const Rational& rhs) {
+bool operator==(const Rational &lhs, const Rational &rhs) {
   return lhs.Numerator() == rhs.Numerator() && lhs.Denominator() == rhs.Denominator();
 }
 
-Rational operator+(const Rational& lhs, const Rational& rhs) {
+Rational operator+(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator(),
           lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator-(const Rational& lhs, const Rational& rhs) {
+Rational operator-(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator() - rhs.Numerator() * lhs.Denominator(),
           lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator*(const Rational& lhs, const Rational& rhs) {
+Rational operator*(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Numerator(), lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator/(const Rational& lhs, const Rational& rhs) {
+Rational operator/(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator(), lhs.Denominator() * rhs.Numerator()};
 }
 
-std::ostream& operator<<(std::ostream& os, const Rational& rational) {
+std::ostream &operator<<(std::ostream &os, const Rational &rational) {
   os << rational.Numerator() << "/" << rational.Denominator();
   return os;
 }
 
 /// @remark bad implementation
-std::istream& operator>>(std::istream& is, Rational& rational) {
+std::istream &operator>>(std::istream &is, Rational &rational) {
   int numerator, denomirator;
   char delimiter;
   /// read numerator
@@ -89,7 +91,7 @@ std::istream& operator>>(std::istream& is, Rational& rational) {
   return is;
 }
 
-bool operator<(const Rational& lhs, const Rational& rhs) {
+bool operator<(const Rational &lhs, const Rational &rhs) {
   return (lhs.Numerator() * rhs.Denominator()) < (rhs.Numerator() * lhs.Denominator());
 }
 
@@ -102,7 +104,7 @@ int main() {
     }
 
     std::vector<Rational> v;
-    for (auto x : rs) {
+    for (auto x: rs) {
       v.push_back(x);
     }
     if (v != std::vector<Rational>{{1, 25}, {1, 2}, {3, 4}}) {

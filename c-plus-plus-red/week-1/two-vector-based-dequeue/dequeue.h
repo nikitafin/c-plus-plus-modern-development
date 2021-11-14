@@ -3,20 +3,19 @@
 #include <vector>
 
 template<typename Type>
-class Deque
-{
+class Deque {
 public:
   Deque();
   bool Empty() const;
   size_t Size() const;
-  Type& operator[](size_t index);
-  const Type& operator[](size_t index) const;
-  Type& At(size_t index);
-  const Type& At(size_t index) const;
-  Type& Front();
-  const Type& Front() const;
-  Type& Back();
-  const Type& Back() const;
+  Type &operator[](size_t index);
+  const Type &operator[](size_t index) const;
+  Type &At(size_t index);
+  const Type &At(size_t index) const;
+  Type &Front();
+  const Type &Front() const;
+  Type &Back();
+  const Type &Back() const;
   void PushFront(Type element);
   void PushBack(Type element);
 
@@ -27,28 +26,23 @@ private:
 
 template<typename Type>
 Deque<Type>::Deque()
-  : front()
-  , back()
-{}
+    : front(), back() {}
 
 template<typename Type>
 bool
-Deque<Type>::Empty() const
-{
+Deque<Type>::Empty() const {
   return front.empty() and back.empty();
 }
 
 template<typename Type>
 size_t
-Deque<Type>::Size() const
-{
+Deque<Type>::Size() const {
   return front.size() + back.size();
 }
 
 template<typename Type>
-Type&
-Deque<Type>::operator[](size_t index)
-{
+Type &
+Deque<Type>::operator[](size_t index) {
   if (index < front.size()) {
     return front[front.size() - index - 1];
   }
@@ -56,9 +50,8 @@ Deque<Type>::operator[](size_t index)
 }
 
 template<typename Type>
-const Type&
-Deque<Type>::operator[](size_t index) const
-{
+const Type &
+Deque<Type>::operator[](size_t index) const {
   if (index < front.size()) {
     return front[front.size() - index - 1];
   }
@@ -66,9 +59,8 @@ Deque<Type>::operator[](size_t index) const
 }
 
 template<typename Type>
-Type&
-Deque<Type>::At(size_t index)
-{
+Type &
+Deque<Type>::At(size_t index) {
   if (index < front.size()) {
     return front.at(front.size() - index - 1);
   }
@@ -76,9 +68,8 @@ Deque<Type>::At(size_t index)
 }
 
 template<typename Type>
-const Type&
-Deque<Type>::At(size_t index) const
-{
+const Type &
+Deque<Type>::At(size_t index) const {
   if (index < front.size()) {
     return front.at(front.size() - index - 1);
   }
@@ -86,9 +77,8 @@ Deque<Type>::At(size_t index) const
 }
 
 template<typename Type>
-Type&
-Deque<Type>::Front()
-{
+Type &
+Deque<Type>::Front() {
   if (!front.empty()) {
     return front.back();
   }
@@ -96,9 +86,8 @@ Deque<Type>::Front()
 }
 
 template<typename Type>
-const Type&
-Deque<Type>::Front() const
-{
+const Type &
+Deque<Type>::Front() const {
   if (!front.empty()) {
     return front.back();
   }
@@ -106,9 +95,8 @@ Deque<Type>::Front() const
 }
 
 template<typename Type>
-Type&
-Deque<Type>::Back()
-{
+Type &
+Deque<Type>::Back() {
   if (!back.empty()) {
     return back.back();
   }
@@ -116,9 +104,8 @@ Deque<Type>::Back()
 }
 
 template<typename Type>
-const Type&
-Deque<Type>::Back() const
-{
+const Type &
+Deque<Type>::Back() const {
   if (!back.empty()) {
     return back.back();
   }
@@ -127,14 +114,12 @@ Deque<Type>::Back() const
 
 template<typename Type>
 void
-Deque<Type>::PushFront(Type element)
-{
+Deque<Type>::PushFront(Type element) {
   front.push_back(element);
 }
 
 template<typename Type>
 void
-Deque<Type>::PushBack(Type element)
-{
+Deque<Type>::PushBack(Type element) {
   back.push_back(element);
 }

@@ -11,7 +11,7 @@ int main() {
     int stops_count = 0;
     std::cin >> stops_count;
     std::vector<std::string> stops(stops_count);
-    for (auto &stop : stops) {
+    for (auto &stop: stops) {
       std::cin >> stop;
     }
     if (stops_num.count(stops) == 0) {

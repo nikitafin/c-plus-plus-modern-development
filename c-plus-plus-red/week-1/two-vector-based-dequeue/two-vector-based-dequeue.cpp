@@ -1,8 +1,7 @@
 #include "dequeue.h"
 
 int
-main()
-{
+main() {
   Deque<double> deque;
   deque.PushBack(123);
   deque.PushFront(-123);

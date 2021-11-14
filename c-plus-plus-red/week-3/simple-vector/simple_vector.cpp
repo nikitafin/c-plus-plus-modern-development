@@ -16,7 +16,7 @@ void TestConstruction() {
   SimpleVector<string> five_strings(5);
   ASSERT_EQUAL(five_strings.Size(), 5u);
   ASSERT(five_strings.Size() <= five_strings.Capacity());
-  for (auto& item : five_strings) {
+  for (auto &item: five_strings) {
     ASSERT(item.empty());
   }
   five_strings[2] = "Hello";

@@ -8,33 +8,31 @@
 #include <string>
 
 template<class T>
-class ObjectPool
-{
+class ObjectPool {
 public:
-  T* Allocate();
+  T *Allocate();
 
-  T* TryAllocate();
+  T *TryAllocate();
 
-  void Deallocate(T* object);
+  void Deallocate(T *object);
 
   ~ObjectPool();
 
 private:
-  std::set<T*> allocated;
-  std::queue<T*> released;
+  std::set<T *> allocated;
+  std::queue<T *> released;
 };
 
 template<class T>
-T*
-ObjectPool<T>::Allocate()
-{
+T *
+ObjectPool<T>::Allocate() {
   if (released.empty()) {
-    T* n = new T();
+    T *n = new T();
     allocated.insert(n);
     return n;
   }
 
-  T* n = released.front();
+  T *n = released.front();
   released.pop();
 
   allocated.insert(n);
@@ -42,14 +40,13 @@ ObjectPool<T>::Allocate()
 }
 
 template<class T>
-T*
-ObjectPool<T>::TryAllocate()
-{
+T *
+ObjectPool<T>::TryAllocate() {
   if (released.empty()) {
     return nullptr;
   }
 
-  T* n = released.front();
+  T *n = released.front();
   released.pop();
 
   allocated.insert(n);
@@ -58,35 +55,32 @@ ObjectPool<T>::TryAllocate()
 
 template<class T>
 void
-ObjectPool<T>::Deallocate(T* object)
-{
+ObjectPool<T>::Deallocate(T *object) {
   auto it = allocated.find(object);
   if (it == allocated.end()) {
     throw std::invalid_argument("");
   }
-  T* obj = *it;
+  T *obj = *it;
   allocated.erase(it);
   released.push(obj);
 }
 
 template<class T>
-ObjectPool<T>::~ObjectPool()
-{
-  for (T* t : allocated) {
+ObjectPool<T>::~ObjectPool() {
+  for (T *t: allocated) {
     delete t;
   }
   allocated.clear();
 
   while (!released.empty()) {
-    T* obj = released.front();
+    T *obj = released.front();
     delete obj;
     released.pop();
   }
 }
 
 void
-TestObjectPool()
-{
+TestObjectPool() {
   ObjectPool<std::string> pool;
 
   auto p1 = pool.Allocate();
@@ -109,8 +103,7 @@ TestObjectPool()
 }
 
 int
-main()
-{
+main() {
   TestRunner tr;
   RUN_TEST(tr, TestObjectPool);
   return 0;

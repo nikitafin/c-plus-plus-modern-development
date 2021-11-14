@@ -2,14 +2,16 @@
 #include <numeric>
 
 class Rational {
- public:
+public:
   Rational() : numerator(0), denominator(1) {}
   Rational(int newNumerator, int newDenominator) {
     if (newNumerator == 0) {
       numerator = 0;
       denominator = 1;
     } else {
-      int sign = ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1 : -1;
+      int sign =
+          ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1
+                                                                                                 : -1;
       int gcd = std::gcd(newNumerator, newDenominator);
       numerator = std::abs(newNumerator / gcd);
       numerator *= sign;
@@ -20,7 +22,7 @@ class Rational {
   int Numerator() const { return numerator; }
   int Denominator() const { return denominator; }
 
- private:
+private:
   int numerator;
   int denominator;
 };

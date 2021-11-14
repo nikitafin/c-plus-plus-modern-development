@@ -286,7 +286,7 @@ void TestSorting() {
       {"Alexander", "Alexandrov", {{"maths", 1.}}, 1.},
       {"Alexander", "Alexandrov", {{"maths", 1.}}, 1.}
   };
-  
+
   sort(students.begin(), students.end(), Compare);
   ASSERT(is_sorted(students.begin(), students.end(),
                    [](Student first, Student second) {

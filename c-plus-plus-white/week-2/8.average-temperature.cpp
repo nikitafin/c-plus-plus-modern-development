@@ -23,7 +23,7 @@ int main() {
     }
   }
   std::cout << result.size() << std::endl;
-  for (const auto &elem : result) {
+  for (const auto &elem: result) {
     std::cout << elem << " ";
   }
   std::cout << std::endl;

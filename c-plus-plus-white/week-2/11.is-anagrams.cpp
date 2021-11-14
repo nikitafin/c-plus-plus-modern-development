@@ -4,7 +4,7 @@
 
 std::map<char, int> BuildCharCount(const std::string &str) {
   std::map<char, int> result;
-  for (const char &c : str) {
+  for (const char &c: str) {
     ++result[c];
   }
   return result;

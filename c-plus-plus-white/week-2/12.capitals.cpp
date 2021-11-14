@@ -10,7 +10,8 @@ void ChangeCapital(std::map<std::string, std::string> &countries,
   } else if (countries[country] == capital) {
     std::cout << "Country " << country << " hasn't changed its capital" << std::endl;
   } else {
-    std::cout << "Country " << country << " has changed its capital from " << countries[country] << " to " << capital
+    std::cout << "Country " << country << " has changed its capital from " << countries[country]
+              << " to " << capital
               << std::endl;
   }
   countries[country] = capital;
@@ -25,7 +26,8 @@ void Rename(std::map<std::string, std::string> &countries,
     std::string capital = countries[old_country_name];
     countries.erase(old_country_name);
     countries[new_country_name] = capital;
-    std::cout << "Country " << old_country_name << " with capital " << capital << " has been renamed to "
+    std::cout << "Country " << old_country_name << " with capital " << capital
+              << " has been renamed to "
               << new_country_name << std::endl;
   }
 }
@@ -42,7 +44,7 @@ void Dump(std::map<std::string, std::string> &countries) {
   if (countries.empty()) {
     std::cout << "There are no countries in the world" << std::endl;
   } else {
-    for (const auto&[country, capital]:countries) {
+    for (const auto&[country, capital]: countries) {
       std::cout << country << "/" << capital << " ";
     }
     std::cout << std::endl;

@@ -11,21 +11,21 @@
 // Благодаря этому в качестве возвращаемого значения
 // функции можно указать не малопонятный вектор векторов,
 // а вектор групп — vector<Group<String>>.
-template <typename String>
+template<typename String>
 using Group = std::vector<String>;
 
 // Ещё один шаблонный синоним типа
 // позволяет вместо громоздкого typename String::value_type
 // использовать Char<String>
-template <typename String>
+template<typename String>
 using Char = typename String::value_type;
 
-template <typename String>
+template<typename String>
 std::vector<Group<String>> GroupHeavyStrings(std::vector<String> strings) {
   std::map<std::set<Char<String>>, Group<String>> groups;
-  for (auto&& string : strings) {
+  for (auto &&string: strings) {
     std::set<Char<String>> temp;
-    for (Char<String> ch : string) {
+    for (Char<String> ch: string) {
       if (!temp.count(ch)) {
         temp.insert(std::move(ch));
       }
@@ -34,7 +34,7 @@ std::vector<Group<String>> GroupHeavyStrings(std::vector<String> strings) {
   }
   std::vector<Group<String>> result;
   result.reserve(groups.size());
-  for (auto&& [key, value] : groups) {
+  for (auto&&[key, value]: groups) {
     result.push_back(std::move(value));
   }
   return result;
@@ -50,7 +50,7 @@ void TestGroupingABC() {
 }
 
 void TestGroupingReal() {
-  std::vector<std::string> strings = {"law", "port",     "top",  "laptop",
+  std::vector<std::string> strings = {"law", "port", "top", "laptop",
                                       "pot", "paloalto", "wall", "awl"};
   auto groups = GroupHeavyStrings(strings);
   ASSERT_EQUAL(groups.size(), 4);

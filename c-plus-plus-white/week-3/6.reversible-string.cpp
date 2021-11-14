@@ -1,8 +1,8 @@
 #include <string>
 
 class ReversibleString {
- public:
-  ReversibleString(): ReversibleString("") {}
+public:
+  ReversibleString() : ReversibleString("") {}
   ReversibleString(const std::string &str) : data(str) {}
 
   void Reverse() {
@@ -14,7 +14,7 @@ class ReversibleString {
     return data;
   }
 
- private:
+private:
   std::string data;
 };
 

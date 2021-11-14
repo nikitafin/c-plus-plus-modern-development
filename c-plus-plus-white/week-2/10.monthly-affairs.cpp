@@ -20,7 +20,7 @@ int main() {
       int day;
       std::cin >> day;
       std::cout << list[day - 1].size() << " ";
-      for (auto task : list[day - 1]) {
+      for (auto task: list[day - 1]) {
         std::cout << task << " ";
       }
       std::cout << endl;

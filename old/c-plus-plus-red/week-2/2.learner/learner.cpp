@@ -10,7 +10,7 @@ private:
 public:
   int Learn(const std::vector<std::string> &words) {
     int newWords = 0;
-    for (const auto &word : words) {
+    for (const auto &word: words) {
       if (!dictionary.count(word)) {
         ++newWords;
         dictionary.insert(word);

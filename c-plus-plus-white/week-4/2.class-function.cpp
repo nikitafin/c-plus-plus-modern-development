@@ -1,7 +1,7 @@
 #include <vector>
 
 class FunctionPart {
- public:
+public:
   FunctionPart(char operation, double value)
       : operation(operation), value(value) {}
 
@@ -20,32 +20,32 @@ class FunctionPart {
       operation = '-';
     }
   }
- private:
+private:
   char operation;
   double value;
 };
 
 class Function {
- public:
+public:
 
   void AddPart(char operaion, double value) {
     parts.emplace_back(operaion, value);
   }
 
   double Apply(double value) const {
-    for (const auto &part : parts) {
+    for (const auto &part: parts) {
       value = part.Apply(value);
     }
     return value;
   }
 
   void Invert() {
-    for (auto &part : parts) {
+    for (auto &part: parts) {
       part.Invert();
     }
     std::reverse(parts.begin(), parts.end());
   }
 
- private:
+private:
   std::vector<FunctionPart> parts;
 };

@@ -2,14 +2,16 @@
 #include <numeric>
 
 class Rational {
- public:
+public:
   Rational() : numerator(0), denominator(1) {}
   Rational(int newNumerator, int newDenominator) {
     if (newNumerator == 0) {
       numerator = 0;
       denominator = 1;
     } else {
-      int sign = ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1 : -1;
+      int sign =
+          ((newNumerator > 0 && newDenominator > 0) || (newNumerator < 0 && newDenominator < 0)) ? 1
+                                                                                                 : -1;
       int gcd = std::gcd(newNumerator, newDenominator);
       numerator = std::abs(newNumerator / gcd);
       numerator *= sign;
@@ -20,30 +22,30 @@ class Rational {
   int Numerator() const { return numerator; }
   int Denominator() const { return denominator; }
 
- private:
+private:
   int numerator;
   int denominator;
 };
 
-bool operator==(const Rational& lhs, const Rational& rhs) {
+bool operator==(const Rational &lhs, const Rational &rhs) {
   return lhs.Numerator() == rhs.Numerator() && lhs.Denominator() == rhs.Denominator();
 }
 
-Rational operator+(const Rational& lhs, const Rational& rhs) {
+Rational operator+(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator() + rhs.Numerator() * lhs.Denominator(),
           lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator-(const Rational& lhs, const Rational& rhs) {
+Rational operator-(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator() - rhs.Numerator() * lhs.Denominator(),
           lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator*(const Rational& lhs, const Rational& rhs) {
+Rational operator*(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Numerator(), lhs.Denominator() * rhs.Denominator()};
 }
 
-Rational operator/(const Rational& lhs, const Rational& rhs) {
+Rational operator/(const Rational &lhs, const Rational &rhs) {
   return {lhs.Numerator() * rhs.Denominator(), lhs.Denominator() * rhs.Numerator()};
 }
 

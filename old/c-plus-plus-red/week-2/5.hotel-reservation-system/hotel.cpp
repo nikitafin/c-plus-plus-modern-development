@@ -11,34 +11,38 @@ struct Booking {
 };
 
 class BookingManager {
- private:
+private:
   std::queue<Booking> hotels;
   std::unordered_map<std::string, int64_t> hotel_rooms;
   std::unordered_map<std::string, std::unordered_map<int64_t, int64_t>> hotel_clients;
 
- public:
+public:
   BookingManager() = default;
   void Book(int64_t time, const std::string &hotel_name, int64_t client_id, int64_t room_count);
   int64_t Clients(const std::string &hotel_name);
   int64_t Rooms(const std::string &hotel_name);
 };
 
-void BookingManager::Book(int64_t time, const std::string &hotel_name, int64_t client_id, int64_t room_count) {
+void BookingManager::Book(int64_t time,
+                          const std::string &hotel_name,
+                          int64_t client_id,
+                          int64_t room_count) {
   // delete old
-  for (auto &hotel = hotels.front(); hotel.time <= time - static_cast<int64_t>(86400) and !hotels.empty();
-	   hotel = hotels.front()) {
-	hotel_rooms[hotel.hotel_name] -= hotel.room_count;
-	if (hotel_rooms[hotel.hotel_name] == 0) {
-	  hotel_rooms.erase(hotel.hotel_name);
-	}
-	--hotel_clients[hotel.hotel_name][hotel.client_id];
-	if (hotel_clients[hotel.hotel_name][hotel.client_id] == 0) {
-	  hotel_clients[hotel.hotel_name].erase(hotel.client_id);
-	}
-	hotels.pop();
-	if (hotels.empty()) {
-	  break;
-	}
+  for (auto &hotel = hotels.front();
+       hotel.time <= time - static_cast<int64_t>(86400) and !hotels.empty();
+       hotel = hotels.front()) {
+    hotel_rooms[hotel.hotel_name] -= hotel.room_count;
+    if (hotel_rooms[hotel.hotel_name] == 0) {
+      hotel_rooms.erase(hotel.hotel_name);
+    }
+    --hotel_clients[hotel.hotel_name][hotel.client_id];
+    if (hotel_clients[hotel.hotel_name][hotel.client_id] == 0) {
+      hotel_clients[hotel.hotel_name].erase(hotel.client_id);
+    }
+    hotels.pop();
+    if (hotels.empty()) {
+      break;
+    }
   }
 
   hotels.push({hotel_name, time, client_id, room_count});
@@ -48,14 +52,14 @@ void BookingManager::Book(int64_t time, const std::string &hotel_name, int64_t c
 
 int64_t BookingManager::Clients(const std::string &hotel_name) {
   if (hotel_clients.count(hotel_name)) {
-	return hotel_clients[hotel_name].size();
+    return hotel_clients[hotel_name].size();
   }
   return 0;
 }
 
 int64_t BookingManager::Rooms(const std::string &hotel_name) {
   if (hotel_rooms.count(hotel_name)) {
-	return hotel_rooms[hotel_name];
+    return hotel_rooms[hotel_name];
   }
   return 0;
 }
@@ -135,22 +139,22 @@ int main() {
   int query_count{0};
   std::cin >> query_count;
   for (int i = 0; i < query_count; ++i) {
-	std::string command;
-	std::cin >> command;
-	if (command == "BOOK") {
-	  int64_t time{0}, client_id{0}, room_count{0};
-	  std::string hotel_name;
-	  std::cin >> time >> hotel_name >> client_id >> room_count;
-	  booking_manager.Book(time, hotel_name, client_id, room_count);
-	} else if (command == "CLIENTS") {
-	  std::string hotel_name;
-	  std::cin >> hotel_name;
-	  std::cout << booking_manager.Clients(hotel_name) << "\n";
-	} else {
-	  std::string hotel_name;
-	  std::cin >> hotel_name;
-	  std::cout << booking_manager.Rooms(hotel_name) << "\n";
-	}
+    std::string command;
+    std::cin >> command;
+    if (command == "BOOK") {
+      int64_t time{0}, client_id{0}, room_count{0};
+      std::string hotel_name;
+      std::cin >> time >> hotel_name >> client_id >> room_count;
+      booking_manager.Book(time, hotel_name, client_id, room_count);
+    } else if (command == "CLIENTS") {
+      std::string hotel_name;
+      std::cin >> hotel_name;
+      std::cout << booking_manager.Clients(hotel_name) << "\n";
+    } else {
+      std::string hotel_name;
+      std::cin >> hotel_name;
+      std::cout << booking_manager.Rooms(hotel_name) << "\n";
+    }
   }
   return 0;
 }

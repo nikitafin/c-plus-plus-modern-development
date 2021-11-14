@@ -18,7 +18,8 @@ int main() {
     } else if (d == 0) {
       std::cout << -b_coef / (2 * a_coef) << std::endl;
     } else {
-      std::cout << (-b_coef + std::sqrt(d)) / (2 * a_coef) << " " << (-b_coef - std::sqrt(d)) / (2 * a_coef) << std::endl;
+      std::cout << (-b_coef + std::sqrt(d)) / (2 * a_coef) << " "
+                << (-b_coef - std::sqrt(d)) / (2 * a_coef) << std::endl;
     }
   }
 

@@ -18,5 +18,6 @@ struct LectureTitle {
   std::string course;
   std::string week;
 
-  LectureTitle(Specialization sp, Course c, Week w) : specialization(sp.value), course(c.value), week(w.value) {}
+  LectureTitle(Specialization sp, Course c, Week w)
+      : specialization(sp.value), course(c.value), week(w.value) {}
 };

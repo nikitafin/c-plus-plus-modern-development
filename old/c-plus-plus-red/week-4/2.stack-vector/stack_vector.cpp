@@ -19,7 +19,7 @@ void TestConstruction() {
   try {
     StackVector<int, 10> u(50);
     Assert(false, "Expect invalid_argument for too large size");
-  } catch (invalid_argument&) {
+  } catch (invalid_argument &) {
   } catch (...) {
     Assert(false, "Unexpected exception for too large size");
   }
@@ -34,7 +34,7 @@ void TestPushBack() {
   try {
     v.PushBack(0);
     Assert(false, "Expect overflow_error for PushBack in full vector");
-  } catch (overflow_error&) {
+  } catch (overflow_error &) {
   } catch (...) {
     Assert(false, "Unexpected exception for PushBack in full vector");
   }
@@ -52,7 +52,7 @@ void TestPopBack() {
   try {
     v.PopBack();
     Assert(false, "Expect underflow_error for PopBack from empty vector");
-  } catch (underflow_error&) {
+  } catch (underflow_error &) {
   } catch (...) {
     Assert(false, "Unexpected exception for PopBack from empty vector");
   }
@@ -73,37 +73,37 @@ int main() {
   uniform_int_distribution<int> value_gen(1, max_size);
 
   vector<vector<int>> test_data(50000);
-  for (auto& cur_vec : test_data) {
+  for (auto &cur_vec: test_data) {
     cur_vec.resize(value_gen(re));
-    for (int& x : cur_vec) {
+    for (int &x: cur_vec) {
       x = value_gen(re);
     }
   }
 
   {
     LOG_DURATION("vector w/o reserve");
-    for (auto& cur_vec : test_data) {
+    for (auto &cur_vec: test_data) {
       vector<int> v;
-      for (int x : cur_vec) {
+      for (int x: cur_vec) {
         v.push_back(x);
       }
     }
   }
   {
     LOG_DURATION("vector with reserve");
-    for (auto& cur_vec : test_data) {
+    for (auto &cur_vec: test_data) {
       vector<int> v;
       v.reserve(cur_vec.size());
-      for (int x : cur_vec) {
+      for (int x: cur_vec) {
         v.push_back(x);
       }
     }
   }
   {
     LOG_DURATION("StackVector");
-    for (auto& cur_vec : test_data) {
+    for (auto &cur_vec: test_data) {
       StackVector<int, max_size> v;
-      for (int x : cur_vec) {
+      for (int x: cur_vec) {
         v.PushBack(x);
       }
     }

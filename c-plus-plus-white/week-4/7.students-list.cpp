@@ -14,8 +14,9 @@ int main() {
   std::cin >> studentsCount;
 
   std::vector<Student> students(studentsCount);
-  for (auto &student : students) {
-    std::cin >> student.firstName >> student.lastName >> student.day >> student.month >> student.year;
+  for (auto &student: students) {
+    std::cin >> student.firstName >> student.lastName >> student.day >> student.month
+             >> student.year;
   }
 
   int cmdCount = 0;
@@ -27,9 +28,11 @@ int main() {
     if ((cmd != "name" and cmd != "date") or studentNumber > studentsCount or studentNumber < 1) {
       std::cout << "bad request" << std::endl;
     } else if (cmd == "name") {
-      std::cout << students[studentNumber - 1].firstName << " " << students[studentNumber - 1].lastName << std::endl;
+      std::cout << students[studentNumber - 1].firstName << " "
+                << students[studentNumber - 1].lastName << std::endl;
     } else if (cmd == "date") {
-      std::cout << students[studentNumber - 1].day << "." << students[studentNumber - 1].month << "."
+      std::cout << students[studentNumber - 1].day << "." << students[studentNumber - 1].month
+                << "."
                 << students[studentNumber - 1].year << std::endl;
     }
 

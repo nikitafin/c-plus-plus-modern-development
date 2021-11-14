@@ -7,7 +7,7 @@
 
 #include "test_runner.h"
 
-template <typename RandomIt>
+template<typename RandomIt>
 void MakeJosephusPermutation(RandomIt first, RandomIt last,
                              uint32_t step_size) {
   std::list<typename RandomIt::value_type> pool;
@@ -57,18 +57,18 @@ struct NoncopyableInt {
 
   NoncopyableInt(int value) : value(value) {}
 
-  NoncopyableInt(const NoncopyableInt&) = delete;
-  NoncopyableInt& operator=(const NoncopyableInt&) = delete;
+  NoncopyableInt(const NoncopyableInt &) = delete;
+  NoncopyableInt &operator=(const NoncopyableInt &) = delete;
 
-  NoncopyableInt(NoncopyableInt&&) = default;
-  NoncopyableInt& operator=(NoncopyableInt&&) = default;
+  NoncopyableInt(NoncopyableInt &&) = default;
+  NoncopyableInt &operator=(NoncopyableInt &&) = default;
 };
 
-bool operator==(const NoncopyableInt& lhs, const NoncopyableInt& rhs) {
+bool operator==(const NoncopyableInt &lhs, const NoncopyableInt &rhs) {
   return lhs.value == rhs.value;
 }
 
-std::ostream& operator<<(std::ostream& os, const NoncopyableInt& v) {
+std::ostream &operator<<(std::ostream &os, const NoncopyableInt &v) {
   return os << v.value;
 }
 

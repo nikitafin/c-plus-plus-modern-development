@@ -2,9 +2,8 @@
 #include <algorithm>
 #include <vector>
 
-
 class SortedStrings {
- public:
+public:
   void AddString(const std::string &str) {
     strs.push_back(str);
   }
@@ -12,6 +11,6 @@ class SortedStrings {
     std::sort(strs.begin(), strs.end());
     return strs;
   }
- private:
+private:
   std::vector<std::string> strs;
 };

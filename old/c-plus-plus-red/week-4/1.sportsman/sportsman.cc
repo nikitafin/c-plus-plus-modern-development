@@ -27,7 +27,7 @@ void SportsmanManager::Add(int new_sportsman, int next_sportsman) {
 }
 
 void SportsmanManager::Print(std::ostream &os) {
-  for (const auto &sportsman : sportsmans) {
+  for (const auto &sportsman: sportsmans) {
     os << sportsman << "\n";
   }
   os << std::endl;

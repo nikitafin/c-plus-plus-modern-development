@@ -9,14 +9,14 @@
 #include "test_runner.h"
 
 // TAirport should be enum with sequential items and last item TAirport::Last_
-template <typename TAirport>
+template<typename TAirport>
 class AirportCounter {
- public:
+public:
   // конструктор по умолчанию: список элементов пока пуст
   AirportCounter();
 
   // конструктор от диапазона элементов типа TAirport
-  template <typename TIterator>
+  template<typename TIterator>
   AirportCounter(TIterator begin, TIterator end);
 
   // получить количество элементов, равных данному
@@ -39,19 +39,19 @@ class AirportCounter {
   // упорядоченных по аэропорту
   Items GetItems() const;
 
- private:
+private:
   std::array<Item, static_cast<uint32_t>(TAirport::Last_)> airportsItemize;
 };
 
-template <typename TAirport>
+template<typename TAirport>
 AirportCounter<TAirport>::AirportCounter() {
   for (size_t i = 0; i != static_cast<uint32_t>(TAirport::Last_); ++i) {
     airportsItemize[i].first = static_cast<TAirport>(i);
   }
 }
 
-template <typename TAirport>
-template <typename TIterator>
+template<typename TAirport>
+template<typename TIterator>
 AirportCounter<TAirport>::AirportCounter(TIterator begin, TIterator end) {
   for (size_t i = 0; i != static_cast<uint32_t>(TAirport::Last_); ++i) {
     airportsItemize[i].first = static_cast<TAirport>(i);
@@ -61,29 +61,29 @@ AirportCounter<TAirport>::AirportCounter(TIterator begin, TIterator end) {
   }
 }
 
-template <typename TAirport>
+template<typename TAirport>
 size_t AirportCounter<TAirport>::Get(TAirport airport) const {
   return airportsItemize[static_cast<uint32_t>(airport)].second;
 }
 
-template <typename TAirport>
+template<typename TAirport>
 void AirportCounter<TAirport>::Insert(TAirport airport) {
   ++airportsItemize[static_cast<uint32_t>(airport)].second;
 }
 
-template <typename TAirport>
+template<typename TAirport>
 void AirportCounter<TAirport>::EraseOne(TAirport airport) {
   --airportsItemize[static_cast<uint32_t>(airport)].second;
 }
 
-template <typename TAirport>
+template<typename TAirport>
 void AirportCounter<TAirport>::EraseAll(TAirport airport) {
   airportsItemize[static_cast<uint32_t>(airport)].second = 0;
 }
 
-template <typename TAirport>
+template<typename TAirport>
 typename AirportCounter<TAirport>::Items AirportCounter<TAirport>::GetItems()
-    const {
+const {
   return airportsItemize;
 }
 
@@ -107,7 +107,7 @@ void TestMoscow() {
 
   using Item = AirportCounter<MoscowAirport>::Item;
   std::vector<Item> items;
-  for (const auto& item : airport_counter.GetItems()) {
+  for (const auto &item: airport_counter.GetItems()) {
     items.push_back(item);
   }
   ASSERT_EQUAL(items.size(), 4);
@@ -159,7 +159,7 @@ void TestManyConstructions() {
       0, static_cast<size_t>(SmallCountryAirports::Last_) - 1);
 
   array<SmallCountryAirports, 2> airports;
-  for (auto& x : airports) {
+  for (auto &x: airports) {
     x = static_cast<SmallCountryAirports>(gen_airport(rnd));
   }
 
@@ -181,7 +181,7 @@ void TestManyGetItems() {
       0, static_cast<size_t>(SmallTownAirports::Last_) - 1);
 
   array<SmallTownAirports, 2> airports;
-  for (auto& x : airports) {
+  for (auto &x: airports) {
     x = static_cast<SmallTownAirports>(gen_airport(rnd));
   }
 
@@ -189,7 +189,7 @@ void TestManyGetItems() {
   for (int step = 0; step < 100'000'000; ++step) {
     AirportCounter<SmallTownAirports> counter(begin(airports), end(airports));
     total += counter.Get(SmallTownAirports::Airport_1);
-    for (const auto [airport, count] : counter.GetItems()) {
+    for (const auto[airport, count]: counter.GetItems()) {
       total += count;
     }
   }
@@ -204,7 +204,7 @@ void TestMostPopularAirport() {
 
   array<pair<SmallCountryAirports, SmallCountryAirports>, 1000>
       dayly_flight_report;
-  for (auto& x : dayly_flight_report) {
+  for (auto &x: dayly_flight_report) {
     x = {static_cast<SmallCountryAirports>(gen_airport(rnd)),
          static_cast<SmallCountryAirports>(gen_airport(rnd))};
   }
@@ -215,7 +215,7 @@ void TestMostPopularAirport() {
 
   for (int day = 0; day < days_to_explore; ++day) {
     AirportCounter<SmallCountryAirports> counter;
-    for (const auto& [source, dest] : dayly_flight_report) {
+    for (const auto&[source, dest]: dayly_flight_report) {
       counter.Insert(source);
       counter.Insert(dest);
     }

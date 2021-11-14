@@ -56,7 +56,7 @@ void ObjectPool<T>::Deallocate(T *object) {
 
 template<class T>
 ObjectPool<T>::~ObjectPool() {
-  for (auto *object : allocated) {
+  for (auto *object: allocated) {
     delete object;
   }
   allocated.clear();

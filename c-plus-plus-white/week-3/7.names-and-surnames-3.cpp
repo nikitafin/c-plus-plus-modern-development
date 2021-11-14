@@ -3,7 +3,7 @@
 #include <vector>
 
 class Person {
- public:
+public:
 
   Person(const std::string &first_name, const std::string &last_name, int birth_year)
       : birth_year(birth_year), first_name_history{{birth_year, first_name}},
@@ -60,10 +60,10 @@ class Person {
     }
   }
 
- private:
+private:
   std::string BuildFullName(int year, const std::map<int, std::string> &history) const {
     std::string result;
-    for (const auto&[y, hist] : history) {
+    for (const auto&[y, hist]: history) {
       if (y <= year) {
         result = hist;
       }
@@ -74,7 +74,7 @@ class Person {
   std::string BuildFullNameHistory(int year, const std::map<int, std::string> &history) const {
 
     std::vector<std::string> hist;
-    for (const auto&[y, value] : history) {
+    for (const auto&[y, value]: history) {
       if (y <= year) {
         hist.push_back(value);
       }
@@ -101,7 +101,7 @@ class Person {
       if (!temp.empty()) {
         result += " (";
         bool is_first = true;
-        for (const auto &h : temp) {
+        for (const auto &h: temp) {
           if (!is_first) {
             result += ", ";
           }

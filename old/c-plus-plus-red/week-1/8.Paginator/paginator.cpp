@@ -92,8 +92,8 @@ void TestLooping() {
 
   Paginator<std::vector<int>::iterator> paginate_v(v.begin(), v.end(), 6);
   std::ostringstream os;
-  for (const auto &page : paginate_v) {
-    for (int x : page) {
+  for (const auto &page: paginate_v) {
+    for (int x: page) {
       os << x << ' ';
     }
     os << '\n';
@@ -104,8 +104,8 @@ void TestLooping() {
 
 void TestModification() {
   std::vector<std::string> vs = {"one", "two", "three", "four", "five"};
-  for (auto page : Paginate(vs, 2)) {
-    for (auto &word : page) {
+  for (auto page: Paginate(vs, 2)) {
+    for (auto &word: page) {
       word[0] = toupper(word[0]);
     }
   }
@@ -119,7 +119,7 @@ void TestPageSizes() {
 
   Paginator letters_pagination(letters.begin(), letters.end(), 11);
   std::vector<size_t> page_sizes;
-  for (const auto &page : letters_pagination) {
+  for (const auto &page: letters_pagination) {
     page_sizes.push_back(page.size());
   }
 
@@ -131,7 +131,7 @@ void TestConstContainer() {
   const std::string letters = "abcdefghijklmnopqrstuvwxyz";
 
   std::vector<std::string> pages;
-  for (const auto &page : Paginate(letters, 10)) {
+  for (const auto &page: Paginate(letters, 10)) {
     pages.push_back(std::string(page.begin(), page.end()));
   }
 
@@ -144,10 +144,10 @@ void TestPagePagination() {
   iota(v.begin(), v.end(), 1);
 
   std::vector<std::vector<int>> lines;
-  for (const auto &split_by_9 : Paginate(v, 9)) {
-    for (const auto &split_by_4 : Paginate(split_by_9, 4)) {
+  for (const auto &split_by_9: Paginate(v, 9)) {
+    for (const auto &split_by_4: Paginate(split_by_9, 4)) {
       lines.push_back({});
-      for (int item : split_by_4) {
+      for (int item: split_by_4) {
         lines.back().push_back(item);
       }
     }

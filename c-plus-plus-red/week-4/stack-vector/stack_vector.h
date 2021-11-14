@@ -6,7 +6,7 @@
 
 template<typename T, size_t N>
 class StackVector {
- public:
+public:
   explicit StackVector(size_t a_size = 0);
 
   T &operator[](size_t index);
@@ -23,7 +23,7 @@ class StackVector {
   void PushBack(const T &value);
   T PopBack();
 
- private:
+private:
   std::array<T, N> data;
   size_t size;
 };

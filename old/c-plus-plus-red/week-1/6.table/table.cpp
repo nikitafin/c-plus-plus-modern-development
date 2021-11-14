@@ -11,7 +11,7 @@ public:
   void Resize(size_t ni, size_t nj) {
     data.resize(ni);
     rows = ni;
-    for (auto &row : data) {
+    for (auto &row: data) {
       row.resize(nj);
     }
     colls = nj;

@@ -2,7 +2,7 @@
 #include <map>
 
 class Person {
- public:
+public:
   void ChangeFirstName(int year, const std::string &first_name) {
     first_name_history[year] = first_name;
   }
@@ -11,12 +11,12 @@ class Person {
   }
   std::string GetFullName(int year) {
     std::string first_name, last_name;
-    for (const auto&[y, fn] : first_name_history) {
+    for (const auto&[y, fn]: first_name_history) {
       if (y <= year) {
         first_name = fn;
       }
     }
-    for (const auto &[y, ln] : last_name_history) {
+    for (const auto &[y, ln]: last_name_history) {
       if (y <= year) {
         last_name = ln;
       }
@@ -31,7 +31,7 @@ class Person {
       return first_name + " " + last_name;
     }
   }
- private:
+private:
   std::map<int, std::string> first_name_history;
   std::map<int, std::string> last_name_history;
 };
