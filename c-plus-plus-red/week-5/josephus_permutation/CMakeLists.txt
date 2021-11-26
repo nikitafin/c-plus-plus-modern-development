@@ -11,5 +11,5 @@ message("Project: " ${PROJECT_NAME} ". Module: " ${CMAKE_PROJECT_NAME} ".")
 add_executable(josephus_permutation josephus_permutation.cpp)
 
 if (UNIX)
-    set(CMAKE_CXX_FLAGS -Wall)
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Wcast-qual -Wconversion -Wduplicated-branches -Wduplicated-cond  -Wextra-semi -Wfloat-equal -Wnon-virtual-dtor -Wsign-conversion")
 endif ()
