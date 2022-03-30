@@ -397,3 +397,4 @@ FodyWeavers.xsd
 1Build/
 .vs*
 build
+compile_commands.json
