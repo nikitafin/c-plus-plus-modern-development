@@ -1,0 +1,2 @@
+# Cpp course solutions
+[![wakatime](https://wakatime.com/badge/user/de483e5f-5bfc-4028-8545-38097cf6f172/project/0e725715-ecdd-4940-a364-810b0c9d46ed.svg)](https://wakatime.com/badge/user/de483e5f-5bfc-4028-8545-38097cf6f172/project/0e725715-ecdd-4940-a364-810b0c9d46ed)
