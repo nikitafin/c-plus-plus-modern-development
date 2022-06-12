@@ -282,7 +282,6 @@ ServiceFabricBackup/
 *.rptproj.rsuser
 *- [Bb]ackup.rdl
 *- [Bb]ackup ([0-9]).rdl
-*- [Bb]ackup ([0-9][0-9]).rdl
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -395,6 +394,7 @@ FodyWeavers.xsd
 
 0Build/
 1Build/
-.vs*
+.vs
 build
 compile_commands.json
+out

@@ -9,12 +9,13 @@
 #include <string>
 #include <thread>
 
-template <typename Iterator> class Page
+template <typename Iterator>
+class Page
 {
-  private:
+private:
     Iterator first, last;
 
-  public:
+public:
     Page(Iterator first, Iterator last) : first(first), last(last)
     {
     }
@@ -40,9 +41,10 @@ template <typename Iterator> class Page
     }
 };
 
-template <typename Iterator> class Paginator
+template <typename Iterator>
+class Paginator
 {
-  public:
+public:
     Paginator(Iterator begin, Iterator end, size_t page_size)
     {
         size_t container_size = std::distance(begin, end);
@@ -80,7 +82,7 @@ template <typename Iterator> class Paginator
         return elements.cend();
     }
 
-  private:
+private:
     std::vector<Page<Iterator>> elements;
 };
 
@@ -88,19 +90,20 @@ struct Stats
 {
     std::map<std::string, int> word_frequences;
 
-    void operator+=(const Stats &other)
+    void operator+=(const Stats & other)
     {
-        for (const auto &[word, count] : other.word_frequences)
+        for (const auto & [word, count] : other.word_frequences)
         {
             word_frequences[word] += count;
         }
     }
 };
 
-template <typename T> Stats ExploreKeyWordsSingleThread(const T &t, const std::set<std::string> &key_words)
+template <typename T>
+Stats ExploreKeyWordsSingleThread(const T & t, const std::set<std::string> & key_words)
 {
     Stats stats;
-    for (const auto &s : t)
+    for (const auto & s : t)
     {
         if (key_words.count(s))
         {
@@ -110,19 +113,22 @@ template <typename T> Stats ExploreKeyWordsSingleThread(const T &t, const std::s
     return stats;
 }
 
-Stats ExploreKeyWords(const std::set<std::string> &key_words, std::istream &input)
+Stats ExploreKeyWords(const std::set<std::string> & key_words, std::istream & input)
 {
-    std::vector<std::string> v(std::make_move_iterator(std::istream_iterator<std::string>(input)),
-                               std::make_move_iterator(std::istream_iterator<std::string>()));
+    std::vector<std::string> v(
+        std::make_move_iterator(std::istream_iterator<std::string>(input)),
+        std::make_move_iterator(std::istream_iterator<std::string>()));
 
     Stats result;
     std::vector<std::future<Stats>> futures;
-    for (auto page : Paginator(v.begin(), v.end(), v.size() / std::thread::hardware_concurrency()))
+    for (auto page :
+         Paginator(v.begin(), v.end(), v.size() / std::thread::hardware_concurrency()))
     {
-        futures.push_back(std::async([=]() { return ExploreKeyWordsSingleThread(page, key_words); }));
+        futures.push_back(
+            std::async([=]() { return ExploreKeyWordsSingleThread(page, key_words); }));
     }
 
-    for (auto &f : futures)
+    for (auto & f : futures)
     {
         result += f.get();
     }
@@ -142,7 +148,8 @@ void TestBasic()
     ss << "Goondex really sucks, but yangle rocks. Use yangle\n";
 
     const auto stats = ExploreKeyWords(key_words, ss);
-    const std::map<std::string, int> expected = {{"yangle", 6}, {"rocks", 2}, {"sucks", 1}};
+    const std::map<std::string, int> expected
+        = {{"yangle", 6}, {"rocks", 2}, {"sucks", 1}};
     ASSERT_EQUAL(stats.word_frequences, expected);
 }
 

@@ -1,0 +1,9 @@
+{
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"cmake.useCMakePresets": "auto",
+	"files.associations": {
+		"chrono": "cpp",
+		"list": "cpp",
+		"*.tcc": "cpp"
+	}
+}

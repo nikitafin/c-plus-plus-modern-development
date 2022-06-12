@@ -9,20 +9,21 @@
 #include <vector>
 using namespace std;
 
-template <typename T> class Synchronized
+template <typename T>
+class Synchronized
 {
-  public:
+public:
     explicit Synchronized(T initial = T()) : value{std::move(initial)}
     {
     }
 
     struct Access
     {
-        Access(T &val, std::mutex &m) : ref_to_value{val}, lc{m}
+        Access(T & val, std::mutex & m) : ref_to_value{val}, lc{m}
         {
         }
 
-        T &ref_to_value;
+        T & ref_to_value;
         std::lock_guard<std::mutex> lc;
     };
 
@@ -31,7 +32,7 @@ template <typename T> class Synchronized
         return Access(value, m);
     }
 
-  private:
+private:
     std::mutex m;
     T value;
 };
@@ -41,7 +42,8 @@ void TestConcurrentUpdate()
     Synchronized<string> common_string;
 
     const size_t add_count = 50000;
-    auto updater = [&common_string, add_count] {
+    auto updater = [&common_string, add_count]
+    {
         for (size_t i = 0; i < add_count; ++i)
         {
             auto access = common_string.GetAccess();
@@ -58,7 +60,7 @@ void TestConcurrentUpdate()
     ASSERT_EQUAL(common_string.GetAccess().ref_to_value.size(), 2 * add_count);
 }
 
-vector<int> Consume(Synchronized<deque<int>> &common_queue)
+vector<int> Consume(Synchronized<deque<int>> & common_queue)
 {
     vector<int> got;
 

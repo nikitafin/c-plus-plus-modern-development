@@ -1,5 +1,7 @@
-void UpdateIfGreater(int first, int &second) {
-  if (first > second) {
-    second = first;
-  }
+void UpdateIfGreater(int first, int & second)
+{
+    if (first > second)
+    {
+        second = first;
+    }
 }

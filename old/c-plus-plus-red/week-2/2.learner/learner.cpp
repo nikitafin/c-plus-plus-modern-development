@@ -1,25 +1,30 @@
 #include <algorithm>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
 
-class Learner {
+class Learner
+{
 private:
-  std::set<std::string> dictionary;
+    std::set<std::string> dictionary;
 
 public:
-  int Learn(const std::vector<std::string> &words) {
-    int newWords = 0;
-    for (const auto &word: words) {
-      if (!dictionary.count(word)) {
-        ++newWords;
-        dictionary.insert(word);
-      }
+    int Learn(const std::vector<std::string> & words)
+    {
+        int newWords = 0;
+        for (const auto & word : words)
+        {
+            if (!dictionary.count(word))
+            {
+                ++newWords;
+                dictionary.insert(word);
+            }
+        }
+        return newWords;
     }
-    return newWords;
-  }
 
-  std::vector<std::string> KnownWords() {
-    return {dictionary.begin(), dictionary.end()};
-  }
+    std::vector<std::string> KnownWords()
+    {
+        return {dictionary.begin(), dictionary.end()};
+    }
 };

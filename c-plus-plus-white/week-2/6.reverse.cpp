@@ -1,9 +1,11 @@
 #include <vector>
 
-void Reverse(std::vector<int> &vec) {
-  for (int i = 0, j = vec.size() - 1; i < j; i++, j--) {
-    std::swap(vec.at(i), vec.at(j));
-  }
+void Reverse(std::vector<int> & vec)
+{
+    for (int i = 0, j = vec.size() - 1; i < j; i++, j--)
+    {
+        std::swap(vec.at(i), vec.at(j));
+    }
 }
 //
 //int main() {

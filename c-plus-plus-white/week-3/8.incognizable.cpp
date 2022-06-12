@@ -1,3 +1,4 @@
-struct Incognizable {
-  int a, b;
+struct Incognizable
+{
+    int a, b;
 };
