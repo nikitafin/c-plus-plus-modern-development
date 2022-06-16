@@ -6,7 +6,6 @@
 #include <set>
 #include <tuple>
 #include <utility>
-#include <vector>
 
 #include "test_runner.h"
 
