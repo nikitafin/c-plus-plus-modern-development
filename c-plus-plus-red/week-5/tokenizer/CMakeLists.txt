@@ -1,1 +1,0 @@
-add_executable(tokenizer split_into_sentences.cpp)
