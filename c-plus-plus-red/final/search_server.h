@@ -1,38 +1,42 @@
 #pragma once
 
 #include <istream>
-#include <list>
-#include <map>
 #include <ostream>
 #include <set>
-#include <string>
+#include <list>
+#include <deque>
 #include <vector>
-using namespace std;
+#include <map>
+#include <string>
+#include <mutex>
+#include <future>
+
 
 class InvertedIndex
 {
 public:
-    void Add(const string & document);
-    list<size_t> Lookup(const string & word) const;
+    void Add(std::string&& document);
+    std::vector<std::pair<size_t, size_t>> Lookup(std::string_view word) const;
 
-    const string & GetDocument(size_t id) const
+    const std::string& GetDocument(size_t id) const
     {
         return docs[id];
     }
-
 private:
-    map<string, list<size_t>> index;
-    vector<string> docs;
+    std::map<std::string_view, std::vector<std::pair<size_t, size_t>>> index;
+    std::deque<std::string> docs;
 };
 
 class SearchServer
 {
 public:
     SearchServer() = default;
-    explicit SearchServer(istream & document_input);
-    void UpdateDocumentBase(istream & document_input);
-    void AddQueriesStream(istream & query_input, ostream & search_results_output);
-
+    ~SearchServer();
+    explicit SearchServer(std::istream& document_input);
+    void UpdateDocumentBase(std::istream& document_input);
+    void AddQueriesStream(std::istream& query_input, std::ostream& search_results_output);
 private:
     InvertedIndex index;
+    std::mutex mutex;
+    std::vector<std::future<void>> vec_futures;
 };

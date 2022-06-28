@@ -2,87 +2,143 @@
 #include "iterator_range.h"
 
 #include <algorithm>
-#include <iostream>
 #include <iterator>
 #include <sstream>
+#include <iostream>
 
-vector<string> SplitIntoWords(const string & line)
+
+std::vector<std::string_view> SplitIntoWords(std::string_view line)
 {
-    istringstream words_input(line);
-    return {istream_iterator<string>(words_input), istream_iterator<string>()};
+    std::vector<std::string_view> result;
+    size_t curr = line.find_first_not_of(' ', 0);
+    while (true)
+    {
+        auto space = line.find(' ', curr);
+        result.emplace_back(line.substr(curr, space - curr));
+
+        if (space == line.npos)
+        {
+            break;
+        }
+        else
+        {
+            curr = line.find_first_not_of(' ', space);
+        }
+
+        if (curr == line.npos) break;
+    }
+    return result;
 }
 
-SearchServer::SearchServer(istream & document_input)
+SearchServer::SearchServer(std::istream& document_input)
 {
     UpdateDocumentBase(document_input);
 }
 
-void SearchServer::UpdateDocumentBase(istream & document_input)
+SearchServer::~SearchServer()
+{
+    std::for_each(vec_futures.begin(), vec_futures.end(), [](std::future<void>& future)
+    {
+        future.get();
+    });
+}
+
+void SearchServer::UpdateDocumentBase(std::istream& document_input)
 {
     InvertedIndex new_index;
-
-    for (string current_document; getline(document_input, current_document);)
+    for (std::string current_document; getline(document_input, current_document); )
     {
         new_index.Add(move(current_document));
     }
 
-    index = move(new_index);
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+        std::swap(new_index, index);
+    }
 }
 
-void SearchServer::AddQueriesStream(
-    istream & query_input, ostream & search_results_output)
+void SearchServer::AddQueriesStream(std::istream& query_input, std::ostream& search_results_output)
 {
-    for (string current_query; getline(query_input, current_query);)
+    auto future = [&query_input, &search_results_output, this]()
     {
-        const auto words = SplitIntoWords(current_query);
 
-        map<size_t, size_t> docid_count;
-        for (const auto & word : words)
+        std::vector<size_t> docs(50000);
+        std::vector<size_t> indx(50000);
+        for (std::string current_query; getline(query_input, current_query);)
         {
-            for (const size_t docid : index.Lookup(word))
+            size_t curr_ind = 0;
+            for (const auto &word : SplitIntoWords(current_query))
             {
-                docid_count[docid]++;
+                std::vector<std::pair<size_t, size_t>> vec;
+                {
+                    std::lock_guard<std::mutex> lock(mutex);
+                    vec = index.Lookup(word);
+                }
+                for (const auto&[docid, count] : vec)
+                {
+                    if (docs[docid] == 0)
+                    {
+                        indx[curr_ind++] = docid;
+                    }
+                    docs[docid] += count;
+                }
             }
-        }
 
-        vector<pair<size_t, size_t>> search_results(
-            docid_count.begin(), docid_count.end());
-        sort(
-            begin(search_results),
-            end(search_results),
-            [](pair<size_t, size_t> lhs, pair<size_t, size_t> rhs)
+            std::vector<std::pair<size_t, size_t>> search_result;
+            for (size_t docid = 0; docid < curr_ind; ++docid)
+            {
+                size_t count = 0;
+                size_t id = 0;
+                std::swap(count, docs[indx[docid]]);
+                std::swap(id, indx[docid]);
+                search_result.emplace_back(id, count);
+            }
+
+            const size_t ANSWERS_COUNT = 5;
+            std::partial_sort(std::begin(search_result), std::begin(search_result) +
+            std::min<size_t>(ANSWERS_COUNT, search_result.size()), std::end(search_result),
+            [](std::pair<size_t, size_t> lhs, std::pair<size_t, size_t> rhs)
             {
                 int64_t lhs_docid = lhs.first;
                 auto lhs_hit_count = lhs.second;
                 int64_t rhs_docid = rhs.first;
                 auto rhs_hit_count = rhs.second;
-                return make_pair(lhs_hit_count, -lhs_docid)
-                    > make_pair(rhs_hit_count, -rhs_docid);
+                return std::make_pair(lhs_hit_count, -lhs_docid) > std::make_pair(rhs_hit_count, -rhs_docid);
             });
 
-        search_results_output << current_query << ':';
-        for (auto [docid, hitcount] : Head(search_results, 5))
-        {
-            search_results_output << " {"
-                                  << "docid: " << docid << ", "
-                                  << "hitcount: " << hitcount << '}';
+            search_results_output << current_query << ':';
+            for (auto[docid, hitcount] : Head(search_result, ANSWERS_COUNT))
+            {
+                search_results_output << " {"
+                                      << "docid: " << docid << ", "
+                                      << "hitcount: " << hitcount << '}';
+            }
+            search_results_output << "\n";
         }
-        search_results_output << endl;
-    }
+    };
+    vec_futures.push_back(std::async(future));
 }
 
-void InvertedIndex::Add(const string & document)
+void InvertedIndex::Add(std::string&& document)
 {
-    docs.push_back(document);
-
+    docs.push_back(std::move(document));
     const size_t docid = docs.size() - 1;
-    for (const auto & word : SplitIntoWords(document))
+
+    for (const auto& word : SplitIntoWords(docs.back()))
     {
-        index[word].push_back(docid);
+        auto& vec_pair = index[word];
+        if(!vec_pair.empty() && vec_pair.back().first == docid)
+        {
+            vec_pair.back().second += 1;
+        }
+        else
+        {
+            vec_pair.emplace_back(docid, 1);
+        }
     }
 }
 
-list<size_t> InvertedIndex::Lookup(const string & word) const
+std::vector<std::pair<size_t, size_t>> InvertedIndex::Lookup(std::string_view word) const
 {
     if (auto it = index.find(word); it != index.end())
     {
