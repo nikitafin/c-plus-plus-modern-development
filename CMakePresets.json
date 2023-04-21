@@ -2,59 +2,60 @@
     "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 22,
-        "patch": 0
+        "minor": 25
     },
     "configurePresets": [
         {
-            "name": "win32_debug",
-            "description": "Using compilers for Visual Studio 17 2022 (x64 architecture)",
-            "generator": "Visual Studio 17 2022",
-            "toolset": "host=x64",
-            "architecture": "x64",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/bin/${presetName}",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+            "name": "common",
+            "description": "General settings that apply to all configurations",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/bin/${presetName}"
+        },
+        {
+            "name": "unixlike-common",
+            "description": "Unix-like OS settings for gcc and clang toolchains",
+            "hidden": true,
+            "inherits": "conf-common",
+            "condition": {
+                "type": "inList",
+                "string": "${hostSystemName}",
+                "list": [
+                    "Linux",
+                    "Darwin"
+                ]
             },
             "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "enableClangTidyCodeAnalysis": true,
-                    "enableMicrosoftCodeAnalysis": true,
-                    "intelliSenseMode": "windows-msvc-x64",
-                    "intelliSenseOptions": {
-                        "additionalCompilerArgs": [
-                            "-w4"
-                        ]
-                    }
+                "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
         },
         {
-            "name": "gcc11",
-            "displayName": "GCC 11.2.0 x86_64-linux-gnu",
-            "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "name": "unixlike-gcc",
+            "description": "Target Unix-like OS with the gcc compiler ",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_C_COMPILER": "/usr/bin/gcc",
-                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
-                "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "iwyu"
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
             }
         },
         {
-            "name": "clang",
-            "displayName": "Clang 14.0.0 x86_64-pc-linux-gnu",
-            "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "name": "unixlike-gcc-debug",
+            "displayName": "GCC Debug",
+            "description": "Target Unix-like OS with the gcc compiler, debug build type",
+            "inherits": "unixlike-gcc",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_C_COMPILER": "/usr/bin/clang",
-                "CMAKE_CXX_COMPILER": "/usr/bin/clang++"
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "unixlike-gcc-release",
+            "displayName": "GCC Release",
+            "description": "Target Unix-like OS with the gcc compiler, release build type",
+            "inherits": "unixlike-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         }
     ]
