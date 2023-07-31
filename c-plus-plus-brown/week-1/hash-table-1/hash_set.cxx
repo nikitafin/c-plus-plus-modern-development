@@ -1,113 +1,63 @@
-#include "test_runner.h"
-
+// TODO(Nikita): use import std (only MSVC supports for now)
+module;
 #include <forward_list>
 #include <iterator>
+#include <unordered_map>
+#include <vector>
+export module hash_set;
 
-using namespace std;
+export namespace modern_cxx::brown {
 
 template <typename Type, typename Hasher>
-class HashSet {
+class [[nodiscard]] HashSet final {
 public:
-  using BucketList = forward_list<Type>;
+  using BucketList = std::forward_list<Type>;
 
 public:
-  explicit HashSet(
-      size_t num_buckets,
-      const Hasher& hasher = {}
-  );
+  explicit HashSet(size_t num_buckets, const Hasher &hasher = {})
+      : m_Hash{num_buckets}, m_Hasher{hasher} {}
 
-  void Add(const Type& value);
-  bool Has(const Type& value) const;
-  void Erase(const Type& value);
-  const BucketList& GetBucket(const Type& value) const;
+  void Add(const Type &value) {
+    if (Has(value)) {
+      return;
+    }
+
+    auto const BucketNo = CalcBucketNo(value);
+    m_Hash.at(BucketNo).push_front(value);
+  }
+
+  bool Has(const Type &value) const {
+    auto const BucketNo = CalcBucketNo(value);
+    BucketList const &bl = m_Hash.at(BucketNo);
+    auto const Begin = std::begin(bl);
+    auto const End = std::end(bl);
+
+    auto const it = std::find(Begin, End, value);
+    if (it == End) {
+      return false;
+    }
+
+    return true;
+  }
+
+  void Erase(const Type &value) {
+    auto const BucketNo = CalcBucketNo(value);
+    m_Hash.at(BucketNo).remove(value);
+  }
+
+  const BucketList &GetBucket(const Type &value) const {
+    auto const BucketNo = CalcBucketNo(value);
+    return m_Hash.at(BucketNo);
+  }
+
+private:
+  size_t CalcBucketNo(Type const &value) const noexcept {
+    return m_Hasher(value) % m_Hash.size();
+  }
+
+private:
+  std::vector<BucketList> m_Hash;
+  Hasher m_Hasher; // NOTE: use inheritance ?
 };
 
-struct IntHasher {
-  size_t operator()(int value) const {
-    // Это реальная хеш-функция из libc++, libstdc++.
-    // Чтобы она работала хорошо, std::unordered_map
-    // использует простые числа для числа бакетов
-    return value;
-  }
-};
-
-struct TestValue {
-  int value;
-
-  bool operator==(TestValue other) const {
-    return value / 2 == other.value / 2;
-  }
-};
-
-struct TestValueHasher {
-  size_t operator()(TestValue value) const {
-    return value.value / 2;
-  }
-};
-
-void TestSmoke() {
-  HashSet<int, IntHasher> hash_set(2);
-  hash_set.Add(3);
-  hash_set.Add(4);
-
-  ASSERT(hash_set.Has(3));
-  ASSERT(hash_set.Has(4));
-  ASSERT(!hash_set.Has(5));
-
-  hash_set.Erase(3);
-
-  ASSERT(!hash_set.Has(3));
-  ASSERT(hash_set.Has(4));
-  ASSERT(!hash_set.Has(5));
-
-  hash_set.Add(3);
-  hash_set.Add(5);
-
-  ASSERT(hash_set.Has(3));
-  ASSERT(hash_set.Has(4));
-  ASSERT(hash_set.Has(5));
-}
-
-void TestEmpty() {
-  HashSet<int, IntHasher> hash_set(10);
-  for (int value = 0; value < 10000; ++value) {
-    ASSERT(!hash_set.Has(value));
-  }
-}
-
-void TestIdempotency() {
-  HashSet<int, IntHasher> hash_set(10);
-  hash_set.Add(5);
-  ASSERT(hash_set.Has(5));
-  hash_set.Add(5);
-  ASSERT(hash_set.Has(5));
-  hash_set.Erase(5);
-  ASSERT(!hash_set.Has(5));
-  hash_set.Erase(5);
-  ASSERT(!hash_set.Has(5));
-}
-
-void TestEquivalence() {
-  HashSet<TestValue, TestValueHasher> hash_set(10);
-  hash_set.Add(TestValue{2});
-  hash_set.Add(TestValue{3});
-
-  ASSERT(hash_set.Has(TestValue{2}));
-  ASSERT(hash_set.Has(TestValue{3}));
-
-  const auto& bucket = hash_set.GetBucket(TestValue{2});
-  const auto& three_bucket = hash_set.GetBucket(TestValue{3});
-  ASSERT_EQUAL(&bucket, &three_bucket);
-
-  ASSERT_EQUAL(1, distance(begin(bucket), end(bucket)));
-  ASSERT_EQUAL(2, bucket.front().value);
-}
-
-int main() {
-  TestRunner tr;
-  RUN_TEST(tr, TestSmoke);
-  RUN_TEST(tr, TestEmpty);
-  RUN_TEST(tr, TestIdempotency);
-  RUN_TEST(tr, TestEquivalence);
-  return 0;
-}
+} // namespace modern_cxx::brown
