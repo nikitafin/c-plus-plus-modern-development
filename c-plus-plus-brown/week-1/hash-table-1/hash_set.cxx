@@ -2,37 +2,36 @@
 module;
 #include <forward_list>
 #include <iterator>
-#include <unordered_map>
 #include <vector>
 export module hash_set;
 
 export namespace modern_cxx::brown {
 
-template <typename Type, typename Hasher>
+template <typename Type, typename THasher>
 class [[nodiscard]] HashSet final {
 public:
   using BucketList = std::forward_list<Type>;
 
 public:
-  explicit HashSet(size_t num_buckets, const Hasher &hasher = {})
-      : m_Hash{num_buckets}, m_Hasher{hasher} {}
+  explicit HashSet(size_t NumBuckets, const THasher &Hasher = {})
+      : m_Hash{NumBuckets}, m_Hasher{Hasher} {}
 
-  void Add(const Type &value) {
-    if (Has(value)) {
+  void Add(const Type &Value) {
+    if (Has(Value)) {
       return;
     }
 
-    auto const BucketNo = CalcBucketNo(value);
-    m_Hash.at(BucketNo).push_front(value);
+    auto const BucketNo = CalcBucketNo(Value);
+    m_Hash.at(BucketNo).push_front(Value);
   }
 
-  bool Has(const Type &value) const {
-    auto const BucketNo = CalcBucketNo(value);
+  auto Has(const Type &Value) const -> bool {
+    auto const BucketNo = CalcBucketNo(Value);
     BucketList const &bl = m_Hash.at(BucketNo);
     auto const Begin = std::begin(bl);
     auto const End = std::end(bl);
 
-    auto const it = std::find(Begin, End, value);
+    auto const it = std::find(Begin, End, Value);
     if (it == End) {
       return false;
     }
@@ -40,24 +39,24 @@ public:
     return true;
   }
 
-  void Erase(const Type &value) {
-    auto const BucketNo = CalcBucketNo(value);
-    m_Hash.at(BucketNo).remove(value);
+  void Erase(const Type &Value) {
+    auto const BucketNo = CalcBucketNo(Value);
+    m_Hash.at(BucketNo).remove(Value);
   }
 
-  const BucketList &GetBucket(const Type &value) const {
-    auto const BucketNo = CalcBucketNo(value);
+  auto GetBucket(const Type &Value) const -> const BucketList & {
+    auto const BucketNo = CalcBucketNo(Value);
     return m_Hash.at(BucketNo);
   }
 
 private:
-  size_t CalcBucketNo(Type const &value) const noexcept {
-    return m_Hasher(value) % m_Hash.size();
+  auto CalcBucketNo(Type const &Value) const noexcept -> size_t {
+    return m_Hasher(Value) % m_Hash.size();
   }
 
 private:
   std::vector<BucketList> m_Hash;
-  Hasher m_Hasher; // NOTE: use inheritance ?
+  THasher m_Hasher; // NOTE: use inheritance ?
 };
 
 } // namespace modern_cxx::brown
