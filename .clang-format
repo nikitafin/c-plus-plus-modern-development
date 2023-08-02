@@ -1,4 +1,6 @@
 BasedOnStyle: LLVM
+
+AlignConsecutiveAssignments: Consecutive
 AlignOperands: true
 AlignTrailingComments: true
 AlwaysBreakAfterReturnType: TopLevel

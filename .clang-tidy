@@ -1,4 +1,7 @@
 Checks: '*,
+  -*-implicit-bool-conversion,
+  
+  -altera-*,
   -llvmlibc-*,
   
   -readability-redundant-access-specifiers,
@@ -12,13 +15,13 @@ Checks: '*,
   '
 WarningsAsErrors: '*'
 CheckOptions:
+  cppcoreguidelines-avoid-do-while.IgnoreMacros: true
   readability-identifier-naming.ClassCase: CamelCase
   readability-identifier-naming.EnumCase: CamelCase
   readability-identifier-naming.FunctionCase: CamelCase # only for cpp modern
   readability-identifier-naming.MemberCase: CamelCase
-  readability-identifier-naming.PrivateMemberPrefix: m_
   readability-identifier-naming.ParameterCase: CamelCase
+  readability-identifier-naming.PrivateMemberPrefix: m_
   readability-identifier-naming.UnionCase: CamelCase
   readability-identifier-naming.VariableCase: CamelCase
   readability-identifier-naming.VariableIgnoredRegexp: '(it|bl)'
-  cppcoreguidelines-avoid-do-while.IgnoreMacros: true
