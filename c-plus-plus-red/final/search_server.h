@@ -9,30 +9,25 @@
 #include <vector>
 using namespace std;
 
-class InvertedIndex
-{
+class InvertedIndex {
 public:
-    void Add(const string & document);
-    list<size_t> Lookup(const string & word) const;
+  void Add(const string &document);
+  list<size_t> Lookup(const string &word) const;
 
-    const string & GetDocument(size_t id) const
-    {
-        return docs[id];
-    }
+  const string &GetDocument(size_t id) const { return docs[id]; }
 
 private:
-    map<string, list<size_t>> index;
-    vector<string> docs;
+  map<string, list<size_t>> index;
+  vector<string> docs;
 };
 
-class SearchServer
-{
+class SearchServer {
 public:
-    SearchServer() = default;
-    explicit SearchServer(istream & document_input);
-    void UpdateDocumentBase(istream & document_input);
-    void AddQueriesStream(istream & query_input, ostream & search_results_output);
+  SearchServer() = default;
+  explicit SearchServer(istream &document_input);
+  void UpdateDocumentBase(istream &document_input);
+  void AddQueriesStream(istream &query_input, ostream &search_results_output);
 
 private:
-    InvertedIndex index;
+  InvertedIndex index;
 };

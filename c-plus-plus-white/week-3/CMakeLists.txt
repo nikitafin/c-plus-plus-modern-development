@@ -4,10 +4,10 @@ project(week-3)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CXX_FLAGS_PART1
-    "-Ofast -Wextra -Wpedantic -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy"
+        "-Ofast -Wextra -Wpedantic -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy"
 )
 set(CXX_FLAGS_PART2
-    "-Wextra-semi -Wfloat-equal -Wlogical-op-parentheses -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wredundant-decls"
+        "-Wextra-semi -Wfloat-equal -Wlogical-op-parentheses -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wredundant-decls"
 )
 set(CXX_FLAGS_PART3 "-Wsign-conversion -Wsign-promo")
 

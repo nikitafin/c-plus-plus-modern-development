@@ -6,22 +6,21 @@
 #include <string_view>
 using namespace std;
 
-Stats ServeRequests(istream & input)
-{
-    Stats result;
-    for (string line; getline(input, line);)
-    {
-        const HttpRequest req = ParseRequest(line);
-        result.AddUri(req.uri);
-        result.AddMethod(req.method);
-    }
-    return result;
+Stats
+ServeRequests(istream &input) {
+  Stats result;
+  for (string line; getline(input, line);) {
+    const HttpRequest req = ParseRequest(line);
+    result.AddUri(req.uri);
+    result.AddMethod(req.method);
+  }
+  return result;
 }
 
-void TestBasic()
-{
-    const string input =
-        R"(GET / HTTP/1.1
+void
+TestBasic() {
+  const string input =
+      R"(GET / HTTP/1.1
     POST /order HTTP/1.1
     POST /product HTTP/1.1
     POST /product HTTP/1.1
@@ -37,58 +36,42 @@ void TestBasic()
     GET /unexpected HTTP/1.1
     HEAD / HTTP/1.1)";
 
-    const map<string_view, int> expected_method_count = {
-        {"GET", 8},
-        {"PUT", 1},
-        {"POST", 4},
-        {"DELETE", 1},
-        {"UNKNOWN", 1},
-    };
-    const map<string_view, int> expected_url_count = {
-        {"/", 4},
-        {"/order", 2},
-        {"/product", 5},
-        {"/basket", 1},
-        {"/help", 1},
-        {"unknown", 2},
-    };
+  const map<string_view, int> expected_method_count = {
+      {"GET", 8}, {"PUT", 1}, {"POST", 4}, {"DELETE", 1}, {"UNKNOWN", 1},
+  };
+  const map<string_view, int> expected_url_count = {
+      {"/", 4},       {"/order", 2}, {"/product", 5},
+      {"/basket", 1}, {"/help", 1},  {"unknown", 2},
+  };
 
-    istringstream is(input);
-    const Stats stats = ServeRequests(is);
+  istringstream is(input);
+  const Stats stats = ServeRequests(is);
 
-    ASSERT_EQUAL(stats.GetMethodStats(), expected_method_count);
-    ASSERT_EQUAL(stats.GetUriStats(), expected_url_count);
+  ASSERT_EQUAL(stats.GetMethodStats(), expected_method_count);
+  ASSERT_EQUAL(stats.GetUriStats(), expected_url_count);
 }
 
-void TestAbsentParts()
-{
-    // Методы GetMethodStats и GetUriStats должны возвращать словари
-    // с полным набором ключей, даже если какой-то из них не встречался
+void
+TestAbsentParts() {
+  // Методы GetMethodStats и GetUriStats должны возвращать словари
+  // с полным набором ключей, даже если какой-то из них не встречался
 
-    const map<string_view, int> expected_method_count = {
-        {"GET", 0},
-        {"PUT", 0},
-        {"POST", 0},
-        {"DELETE", 0},
-        {"UNKNOWN", 0},
-    };
-    const map<string_view, int> expected_url_count = {
-        {"/", 0},
-        {"/order", 0},
-        {"/product", 0},
-        {"/basket", 0},
-        {"/help", 0},
-        {"unknown", 0},
-    };
-    const Stats default_constructed;
+  const map<string_view, int> expected_method_count = {
+      {"GET", 0}, {"PUT", 0}, {"POST", 0}, {"DELETE", 0}, {"UNKNOWN", 0},
+  };
+  const map<string_view, int> expected_url_count = {
+      {"/", 0},       {"/order", 0}, {"/product", 0},
+      {"/basket", 0}, {"/help", 0},  {"unknown", 0},
+  };
+  const Stats default_constructed;
 
-    ASSERT_EQUAL(default_constructed.GetMethodStats(), expected_method_count);
-    ASSERT_EQUAL(default_constructed.GetUriStats(), expected_url_count);
+  ASSERT_EQUAL(default_constructed.GetMethodStats(), expected_method_count);
+  ASSERT_EQUAL(default_constructed.GetUriStats(), expected_url_count);
 }
 
-int main()
-{
-    TestRunner tr;
-    RUN_TEST(tr, TestBasic);
-    RUN_TEST(tr, TestAbsentParts);
+int
+main() {
+  TestRunner tr;
+  RUN_TEST(tr, TestBasic);
+  RUN_TEST(tr, TestAbsentParts);
 }

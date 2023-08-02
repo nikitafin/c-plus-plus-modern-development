@@ -3,28 +3,21 @@
 #include <string>
 #include <vector>
 
-class Learner
-{
+class Learner {
 private:
-    std::set<std::string> dict;
+  std::set<std::string> dict;
 
 public:
-    int Learn(const std::vector<std::string> & words)
-    {
-        int newWords = 0;
-        for (const auto & word : words)
-        {
-            if (!dict.count(word))
-            {
-                dict.insert(word);
-                ++newWords;
-            }
-        }
-        return newWords;
+  int Learn(const std::vector<std::string> &words) {
+    int newWords = 0;
+    for (const auto &word : words) {
+      if (!dict.count(word)) {
+        dict.insert(word);
+        ++newWords;
+      }
     }
+    return newWords;
+  }
 
-    std::vector<std::string> KnownWords()
-    {
-        return {dict.begin(), dict.end()};
-    }
+  std::vector<std::string> KnownWords() { return {dict.begin(), dict.end()}; }
 };
