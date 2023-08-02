@@ -1,2 +1,4 @@
 add_subdirectory(hash-table-1)
 add_subdirectory(set_iterator_next)
+add_subdirectory(hash_point)
+add_subdirectory(hash_person)
