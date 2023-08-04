@@ -1,13 +1,16 @@
 #pragma once
 
 #include <istream>
-#include <list>
-#include <map>
 #include <ostream>
 #include <set>
-#include <string>
+#include <list>
+#include <deque>
 #include <vector>
-using namespace std;
+#include <map>
+#include <string>
+#include <mutex>
+#include <future>
+
 
 class InvertedIndex {
 public:

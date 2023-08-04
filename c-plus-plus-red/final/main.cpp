@@ -1,4 +1,5 @@
 #include "parse.h"
+#include "parse.h"
 #include "search_server.h"
 #include "test_runner.h"
 
@@ -43,7 +44,7 @@ TestSerpFormat() {
       Join(' ', vector{"the:", "{docid: 0, hitcount: 1}",
                        "{docid: 1, hitcount: 1}"})};
 
-  TestFunctionality(docs, queries, expected);
+    TestFunctionality(docs, queries, expected);
 }
 
 void

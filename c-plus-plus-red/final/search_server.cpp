@@ -6,10 +6,27 @@
 #include <iterator>
 #include <sstream>
 
-vector<string>
-SplitIntoWords(const string &line) {
-  istringstream words_input(line);
-  return {istream_iterator<string>(words_input), istream_iterator<string>()};
+std::vector<std::string_view>
+SplitIntoWords(std::string_viewline) {
+  std::vector<std::string_view> result;
+    size_t curr = line.find_first_not_of(' ', 0);
+  while (true)
+    {
+        auto space = line.find(' ', curr);
+        result.emplace_back(line.substr(curr, space - curr));
+
+        if (space == line.npos)
+        {
+            break;
+        }
+        else
+        {
+            curr = line.find_first_not_of(' ', space);
+        }
+
+        if (curr == line.npos) break;
+    }
+    return result;
 }
 
 SearchServer::SearchServer(istream &document_input) {

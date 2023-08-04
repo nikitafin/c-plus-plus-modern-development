@@ -2,7 +2,7 @@ project(red_final)
 message("Project: " ${PROJECT_NAME} ". Module: " ${CMAKE_PROJECT_NAME} ".")
 
 add_executable(
-        part1
+        final
 
         main.cpp
         iterator_range.h
@@ -12,4 +12,8 @@ add_executable(
 
         search_server.cpp
         search_server.h
+
+        syn.h
 )
+
+
