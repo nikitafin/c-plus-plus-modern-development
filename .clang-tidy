@@ -23,5 +23,5 @@ CheckOptions:
   readability-identifier-naming.ParameterCase: CamelCase
   readability-identifier-naming.PrivateMemberPrefix: m_
   readability-identifier-naming.UnionCase: CamelCase
-  readability-identifier-naming.VariableCase: CamelCase
+  readability-identifier-naming.VariableCase: snake_case # only for cpp modern
   readability-identifier-naming.VariableIgnoredRegexp: '(it|bl)'

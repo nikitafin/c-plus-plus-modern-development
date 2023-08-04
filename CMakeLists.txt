@@ -25,7 +25,6 @@ include_directories(stuff)
 
 # FIXME(Nikita): flags for all platrforms
 if (UNIX)
-    message("GCC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 endif ()
 

@@ -1,8 +1,9 @@
 BasedOnStyle: LLVM
 
 AlignConsecutiveAssignments: Consecutive
-AlignOperands: true
-AlignTrailingComments: true
+AlignConsecutiveDeclarations: Consecutive
+AlignOperands: Align
+AlignTrailingComments: Always
 AlwaysBreakAfterReturnType: TopLevel
 AlwaysBreakTemplateDeclarations: Yes
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
