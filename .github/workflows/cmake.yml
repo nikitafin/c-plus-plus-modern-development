@@ -25,6 +25,13 @@ jobs:
         with:
           cmakeVersion: 3.27.1
 
+      - name: Set up Clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: 16.0.6
+          platform: x64
+          cc: 1
+
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} --preset clang16
 
