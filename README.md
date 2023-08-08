@@ -1,3 +1,3 @@
 # Cpp course solutions
+[![CMake](https://github.com/nikitafin/c-plus-plus-modern-development/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/nikitafin/c-plus-plus-modern-development/actions/workflows/cmake.yml)
 [![wakatime](https://wakatime.com/badge/user/de483e5f-5bfc-4028-8545-38097cf6f172/project/0e725715-ecdd-4940-a364-810b0c9d46ed.svg)](https://wakatime.com/badge/user/de483e5f-5bfc-4028-8545-38097cf6f172/project/0e725715-ecdd-4940-a364-810b0c9d46ed)
-[![Hits-of-Code](https://hitsofcode.com/github/nikitafin/c-plus-plus-modern-development?branch=master)](https://hitsofcode.com/github/nikitafin/c-plus-plus-modern-development/view?branch=master)
