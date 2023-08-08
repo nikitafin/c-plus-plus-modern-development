@@ -8,4 +8,4 @@ target_sources(secondary_index_test PUBLIC
 )
 target_link_libraries(secondary_index_test PUBLIC shared::gtest_all)
 
-add_test(NAME secondary_index_test.cxx COMMAND secondary_index_test.cxx)
+add_test(NAME secondary_index_test COMMAND secondary_index_test)
