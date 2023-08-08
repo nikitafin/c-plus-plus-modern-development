@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(c-plus-plus-modern-development)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API bf70d4b0-9fb7-465c-9803-34014e70d112)

@@ -1,16 +1,16 @@
 {
-  "version": 3,
+  "version": 6,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 22,
+    "minor": 26,
     "patch": 0
   },
   "configurePresets": [
     {
       "name": "clang16",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "installDir": "${sourceDir}/bin/${presetName}",
+      "binaryDir": "${sourceDir}/build/",
+      "installDir": "${sourceDir}/bin/",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
@@ -29,64 +29,27 @@
           "toolchain": "WSL-clang"
         }
       }
-    },
-    {
-      "name": "win",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "installDir": "${sourceDir}/bin/${presetName}",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "vendor": {
-        "jetbrains.com/clion": {
-          "toolchain": "Visual Studio"
-        }
-      }
     }
-  ]
-  "version": 3,
-  "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 25,
-    "patch": 0
-  },
-  "configurePresets": [
+  ],
+  "buildPresets": [
     {
-      "name": "common-config",
-      "description": "Build with debug symbols",
-      "generator": "Ninja",
-      "hidden": true,
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "installDir": "${sourceDir}/bin/${presetName}"
-    },
+      "name": "default",
+      "configurePreset": "clang16"
+    }
+  ],
+  "workflowPresets": [
     {
-      "name": "unix-config",
-      "description": "",
-      "inherits": "common-config",
-      "hidden": true,
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++"
-      }
-    },
-    {
-      "name": "unix-config-debug",
-      "description": "",
-      "inherits": "unix-config",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "unix-config-release",
-      "description": "",
-      "inherits": "unix-config",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
+      "name": "default",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang16"
+        },
+        {
+          "type": "build",
+          "name": "default"
+        }
+      ]
     }
   ]
 }
