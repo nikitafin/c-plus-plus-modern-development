@@ -3,7 +3,7 @@
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 27,
-    "patch": 1
+    "patch": 0
   },
   "configurePresets": [
     {
@@ -20,11 +20,6 @@
         "dev": false
       },
       "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        },
         "jetbrains.com/clion": {
           "toolchain": "WSL-clang"
         }
@@ -35,21 +30,6 @@
     {
       "name": "default",
       "configurePreset": "clang16"
-    }
-  ],
-  "workflowPresets": [
-    {
-      "name": "default",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "clang16"
-        },
-        {
-          "type": "build",
-          "name": "default"
-        }
-      ]
     }
   ]
 }
