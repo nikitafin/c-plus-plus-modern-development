@@ -6,32 +6,45 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  BUILD_TYPE: Release
 
 jobs:
   build:
+    name: "build on clang-16"
     runs-on: ubuntu-latest
 
+    env:
+      CC: clang-16
+      CXX: clang++-16
+      CLANG_DIR: '/usr/lib/llvm-16/lib/cmake/clang'
+      LLVM_DIR: '/usr/lib/llvm-16/lib/cmake/llvm'
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Install LLVM 16
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+          sudo apt update
+          sudo apt install llvm-16 llvm-16-dev llvm-16-tools clang-16 clang-tidy-16 clang-tools-16 libclang-16-dev
 
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
-
-      - name: Install CMake
+      - name: Install CMake 3.27.1
         uses: lukka/get-cmake@latest
         with:
           cmakeVersion: 3.27.1
 
-      - name: Install clang
+      - name: Update $PATH
         run: |
-          sudo apt remove clang -y
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 16 all
-          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 10
-          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 10
+          mkdir ~/llvm-command-override
+          ln -s /usr/bin/clang-tidy-16 ~/llvm-command-override/clang-tidy
+          ln -s /usr/bin/FileCheck-16 ~/llvm-command-override/FileCheck
+          ln -s /usr/bin/clang-16 ~/llvm-command-override/clang
+          ln -s /usr/bin/clang++-16 ~/llvm-command-override/clang++
+          echo "$HOME/llvm-command-override" >> $GITHUB_PATH
+
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} --preset clang16
