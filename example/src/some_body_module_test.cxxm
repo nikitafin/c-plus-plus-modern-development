@@ -1,0 +1,14 @@
+module;
+#include <boost/ut.hpp>
+export module some_body_test;
+
+namespace ut = boost::ut;
+using namespace ut::literals;
+
+export ut::suite<"module suit"> errors = [] {
+  using namespace ut;
+
+  "module "_test = [] {
+    expect(true);
+  };
+};

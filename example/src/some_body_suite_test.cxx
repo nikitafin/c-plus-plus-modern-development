@@ -13,4 +13,10 @@ ut::suite<"extra suit"> errors = [] {
   "doesn't throw"_test = [] {
     expect(nothrow([] {}));
   };
+
+#if 0  // for ci testing
+  "broken "_test = [] {
+    expect(false);
+  };
+#endif
 };
