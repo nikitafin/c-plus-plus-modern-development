@@ -1,0 +1,8 @@
+[submodule "third_party/ut"]
+	path = third_party/ut
+	url = https://github.com/boost-ext/ut.git
+	branch = tags/v2.1.0
+[submodule "third_party/doctest"]
+	path = third_party/doctest
+	url = https://github.com/doctest/doctest.git
+	branch = tag/v2.4.11
