@@ -1,0 +1,88 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "conf-default",
+      "binaryDir": "out/build",
+      "installDir": "out/install",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "hidden": true
+    },
+    {
+      "name": "conf-sanitizer-basic",
+      "hidden": true,
+      "cacheVariables": {
+        "PROJECT_SANITIZER_ADDRESS_ENABLED": true,
+        "PROJECT_SANITIZER_UNDEFINED_ENABLED": true
+      }
+    },
+    {
+      "name": "conf-clang",
+      "inherits": "conf-default",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_FLAGS": "-stdlib=libc++",
+        "CMAKE_LINKER_TYPE": "LLD"
+      }
+    },
+    {
+      "name": "conf-clang-testing",
+      "displayName": "Basic clang configuration for testing with address and undefined sanitizers",
+      "inherits": [
+        "conf-clang",
+        "conf-sanitizer-basic"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-clang-testing",
+      "displayName": "Basic clang build for testing with address and undefined sanitizers",
+      "configurePreset": "conf-clang-testing",
+      "verbose": true
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-default",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "test-clang-testing",
+      "displayName": "Basic clang test for testing with address and undefined sanitizers",
+      "inherits": "test-default",
+      "configurePreset": "conf-clang-testing"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "work-clang-testing",
+      "displayName": "Basic clang workflow for testing with address and undefined sanitizers",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-clang-testing"
+        },
+        {
+          "type": "build",
+          "name": "build-clang-testing"
+        },
+        {
+          "type": "test",
+          "name": "test-clang-testing"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+BasedOnStyle: Google # Yandex has a strong affinity for imitating Google.
+
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortLambdasOnASingleLine: Inline
