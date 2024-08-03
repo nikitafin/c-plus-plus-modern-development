@@ -8,8 +8,8 @@
   "configurePresets": [
     {
       "name": "conf-default",
-      "binaryDir": "out/build",
-      "installDir": "out/install",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
