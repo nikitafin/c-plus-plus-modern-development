@@ -17,3 +17,8 @@ add_library(third_party_ut INTERFACE)
 target_include_directories(third_party_ut SYSTEM AFTER INTERFACE ${DEP_DIR}/include)
 target_compile_definitions(third_party_ut INTERFACE BOOST_UT_DISABLE_MODULE)
 add_library(third_party::ut ALIAS third_party_ut)
+
+add_library(third_party_ut_main STATIC)
+target_sources(third_party_ut_main PRIVATE "./src/main.cxx")
+target_link_libraries(third_party_ut_main PUBLIC third_party::ut)
+add_library(third_party::ut_main ALIAS third_party_ut_main)
