@@ -5,12 +5,8 @@ if (PROJECT_TEST_ENABLED)
             PRIVATE
             "./tests/some_body_src_test.cxx"
     )
-    target_sources(some_body_test
-            PRIVATE FILE_SET CXX_MODULES FILES
-            "./tests/some_body_module_test.cxxm"
-    )
 
-    target_link_libraries(some_body_test PRIVATE third_party::ut_main)
+    target_link_libraries(some_body_test PRIVATE third_party::gtest_all)
 
     add_test(NAME some_body_test COMMAND some_body_test)
 endif ()

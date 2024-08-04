@@ -2,3 +2,10 @@
 	path = third_party/ut
 	url = https://github.com/boost-ext/ut.git
 	branch = tags/v2.1.0
+[submodule "third_party/catch"]
+	path = third_party/catch
+	url = https://github.com/catchorg/Catch2.git
+	branch = tags/v3.6.0
+[submodule "third_party/googletest"]
+	path = third_party/googletest
+	url = https://github.com/google/googletest.git

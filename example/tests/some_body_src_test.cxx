@@ -1,22 +1,12 @@
-#include <boost/ut.hpp>
+#include <gtest/gtest.h>
 
-namespace ut = boost::ut;
-using namespace ut::literals;
+unsigned int Factorial(unsigned int number) {
+  return number <= 1 ? number : Factorial(number - 1) * number;
+}
 
-ut::suite<"extra suit"> errors = [] {
-  using namespace ut;
-
-  "throws"_test = [] {
-    expect(throws([] { throw 0; }));
-  };
-
-  "doesn't throw"_test = [] {
-    expect(nothrow([] {}));
-  };
-
-#if 0  // for ci testing
-  "broken "_test = [] {
-    expect(false);
-  };
-#endif
-};
+TEST(Factorials, Smoke) {
+  EXPECT_TRUE(Factorial(1) == 1);
+  EXPECT_TRUE(Factorial(2) == 2);
+  EXPECT_TRUE(Factorial(3) == 6);
+  EXPECT_TRUE(Factorial(10) == 3628800);
+}
