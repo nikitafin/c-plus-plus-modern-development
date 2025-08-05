@@ -10,7 +10,5 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: "true"
-      - name: create base image
-        run: docker compose run --remove-orphans builder-ci
-      - name: run workflow
-        run: docker compose run --remove-orphans builder
+      - name: run pepeline
+        run: make all
