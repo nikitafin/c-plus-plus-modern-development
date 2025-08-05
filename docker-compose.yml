@@ -1,0 +1,15 @@
+services:
+  builder-ci:
+    container_name: "builder.ci"
+    build:
+      context: .
+      dockerfile: util\Dockerfile
+  builder:
+    container_name: "builder"
+    image: dev
+    build:
+      context: .
+      args:
+        source_path: /src
+    volumes:
+      - .:/src:rw

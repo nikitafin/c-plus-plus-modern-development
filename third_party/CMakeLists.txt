@@ -26,5 +26,4 @@ function(add_third_party cmake_folder)
     add_subdirectory(${cmake_folder})
 endfunction()
 
-add_third_party(ut-cmake ut)
 add_third_party(googletest-cmake googletest)
