@@ -4,11 +4,21 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Git checkout
+        uses: actions/checkout@v4
         with:
           submodules: "true"
-      - name: run pepeline
-        run: make all
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build docker image and does not push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./util/Dockerfile
+          tags: dev
+          push: false
+      - name: Run pepeline
+        run: make
