@@ -24,19 +24,13 @@ if (PROJECT_SANITIZERS)
     append_compile_option(PROJECT_COMPILE_OPTIONS "-g")
     append_compile_option(PROJECT_COMPILE_OPTIONS "-fno-omit-frame-pointer")
 
-    # BUG(nikitafin): -fsanitize=address check failed no idea why
     list(APPEND PROJECT_COMPILE_OPTIONS "-fsanitize=${PROJECT_SANITIZERS_STRING}")
-    #    append_compile_option(PROJECT_COMPILE_OPTIONS -fsanitize=${PROJECT_SANITIZERS_STRING})
-
-    append_link_option(PROJECT_LINK_OPTIONS "-fsanitize=${PROJECT_SANITIZERS_STRING}")
+    list(APPEND PROJECT_LINK_OPTIONS "-fsanitize=${PROJECT_SANITIZERS_STRING}")
 endif ()
 
 # Per compiler tune
 if (PROJECT_COMPILER_CLANG)
-    append_compile_option(PROJECT_COMPILE_OPTIONS "-static")
-
     append_link_option(PROJECT_LINK_OPTIONS "-stdlib=libc++")
-
 endif ()
 
 # Apply

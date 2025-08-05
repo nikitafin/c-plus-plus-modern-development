@@ -18,7 +18,10 @@ jobs:
         with:
           context: .
           file: ./util/Dockerfile
-          tags: dev
+          tags: dev:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           push: false
+          load: true
       - name: Run pepeline
-        run: make
+        run: make workflow-ci

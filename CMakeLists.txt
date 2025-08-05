@@ -28,7 +28,7 @@ include(cmake/DetectCompiler.cmake)
 include(cmake/SanitizerSupport.cmake)
 include(cmake/Utility.cmake)
 include(cmake/Warnings.cmake)
-include(cmake/HandleToolchain.cmake)
+# include(cmake/HandleToolchain.cmake) # disable for now
 include(cmake/PrintInfo.cmake)
 
 add_subdirectory(third_party)
