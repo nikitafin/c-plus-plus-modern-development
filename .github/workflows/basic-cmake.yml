@@ -18,7 +18,7 @@ jobs:
         with:
           context: .
           file: ./util/Dockerfile.ci
-          tags: dev:latest
+          tags: ci:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: false
