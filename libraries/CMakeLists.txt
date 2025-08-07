@@ -1,0 +1,2 @@
+ADD_SUBDIRECTORY ( libxml )
+ADD_SUBDIRECTORY ( libjson )

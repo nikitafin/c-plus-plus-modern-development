@@ -2,3 +2,58 @@ BasedOnStyle: Google # Yandex has a strong affinity for imitating Google.
 
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: Inline
+ColumnLimit: 80
+FixNamespaceComments: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Первым необходимо подключить PCH
+  - Regex: "stdafx.h"
+    Priority: -3
+
+  # Далее необходимо подключить поддержку winapi.
+  - Regex: "windows.h"
+    Priority: -2
+
+  # Основной заголовок исходника (автоматически)
+
+  # Наши собственные сорцы
+  - Regex: '^".*_global'
+    Priority: 1
+    SortPriority: 1
+  - Regex: '^".*/.*'
+    Priority: 2
+    SortPriority: 3
+  - Regex: '^"'
+    Priority: 2
+    SortPriority: 2
+
+  # NOTE: возможно это можно как-то переписать нормально, но я не знаю как 🙃.
+  # Идея следующая:
+  # * библиотека си
+  # * библиотека с++
+  # * сишные заголовки (платформа - windows || linux)
+  # * qt
+  # * third_party (boost, etc)
+  # * всё остальное
+
+  # сишные заголовки
+  - Regex: "^<.*\\.h>"
+    Priority: 5
+
+  # библиотечные заголовки (c)
+  - Regex: "^<complex" # исключение из сишных
+    Priority: 3
+    SortPriority: 2
+  - Regex: "^<c.*"
+    Priority: 3
+    SortPriority: 1
+  # библиотечные заголовки (c++)
+  - Regex: "^<(.*)"
+    SortPriority: 2
+    Priority: 3
+
+  # всё остальное
+  - Regex: ".*"
+    Priority: 100
+IndentPPDirectives: AfterHash
+NamespaceIndentation: None

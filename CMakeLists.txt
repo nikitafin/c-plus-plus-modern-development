@@ -33,3 +33,5 @@ ENDIF ( )
 
 ADD_SUBDIRECTORY ( third_party )
 ADD_SUBDIRECTORY ( example )
+ADD_SUBDIRECTORY ( libraries )
+ADD_SUBDIRECTORY ( brown )
