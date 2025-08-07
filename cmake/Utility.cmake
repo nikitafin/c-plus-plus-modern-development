@@ -1,66 +1,74 @@
-include_guard(GLOBAL)
-message(STATUS "Load module: ${CMAKE_CURRENT_LIST_FILE}")
+#####################################################################
+# Utility
+#####################################################################
+INCLUDE_GUARD ( GLOBAL )
+MESSAGE ( STATUS "Load module: ${CMAKE_CURRENT_LIST_FILE}" )
 
-##
-function(option_check_name option option_name)
-    #    string(REGEX REPLACE "[-]" " " new_option_str ${option})
-    #    string(STRIP ${new_option_str} new_option_str)
-    #    string(REGEX REPLACE "[ ]" "_" new_option_str ${new_option_str})
-    #    string(REGEX REPLACE "[=]" "_" new_option_str ${new_option_str})
-    #    string(TOUPPER ${new_option_str} ${option_name})
-    #    string(SUBSTRING ${option} 1 -1 ${option_name})
-    set(${option_name} ${option})
+#####################################################################
+# UNIFY_LIST - Unify list
+FUNCTION ( UNIFY_LIST OPTION_LIST )
+    SEPARATE_ARGUMENTS ( ${OPTION_LIST} )
 
-    return(PROPAGATE ${option_name})
-endfunction()
+    LIST( REMOVE_DUPLICATES ${OPTION_LIST}  )
+    list( REMOVE_ITEM ${OPTION_LIST} ""     )
+    list( SORT ${OPTION_LIST}               )
 
-##
-function(append_compile_option options new_option)
-    option_check_name(${new_option} new_option_str)
-    set(new_option_str "COMPILE:${new_option_str}")
+    SET(${OPTION_LIST} ${${OPTION_LIST}} PARENT_SCOPE)
+ENDFUNCTION ( )
 
-    check_cxx_compiler_flag(${new_option} ${new_option_str})
+#####################################################################
+# APPEND_UNIQUE - append unique value in list
+FUNCTION ( APPEND_UNIQUE LIST_NAME VALUE )
+    IF ( NOT ${LIST_NAME} )
+        SET ( ${LIST_NAME} ${VALUE} PARENT_SCOPE )
+    ELSE ( )
+        LIST (FIND ${LIST_NAME} ${VALUE} INDEX )
+        IF ( INDEX EQUAL -1 )
+            LIST ( APPEND ${LIST_NAME} ${VALUE} )
+            SET ( ${LIST_NAME} ${${LIST_NAME}} PARENT_SCOPE )
+        ENDIF ( )
+    ENDIF ( )
+ENDFUNCTION ( )
 
-    if (${${new_option_str}})
-        if (${new_option} IN_LIST ${options})
-            # TODO(nikitafin): handle somehow
-        else ()
-            list(APPEND ${options} ${new_option})
-        endif ()
-    endif ()
-    return(PROPAGATE ${options})
-endfunction()
+#####################################################################
+# APPEND_WARNING - append warning new_option to options list
+FUNCTION ( APPEND_WARNING OPTIONS NEW_OPTION )
+    SET ( NEW_OPTION_STR "WARNING:${NEW_OPTION}")
 
-##
-function(append_link_option options new_option)
-    option_check_name(${new_option} new_option_str)
-    set(new_option_str "LINK:${new_option_str}")
+    CHECK_CXX_COMPILER_FLAG ( ${NEW_OPTION} ${NEW_OPTION_STR} )
 
-    check_linker_flag(CXX ${new_option} ${new_option_str})
+    IF ( ${${NEW_OPTION_STR}} )
+        IF (NOT ${NEW_OPTION} IN_LIST ${OPTIONS} )
+            LIST ( APPEND ${OPTIONS} ${NEW_OPTION} )
+        ENDIF ( )
+    ENDIF ( )
+    SET ( ${OPTIONS} ${${OPTIONS}} PARENT_SCOPE )
+ENDFUNCTION ( )
 
-    if (${${new_option_str}})
-        if (${new_option} IN_LIST ${options})
-            # TODO(nikitafin): handle somehow
-        else ()
-            list(APPEND ${options} ${new_option})
-        endif ()
-    endif ()
-    return(PROPAGATE ${options})
-endfunction()
+#####################################################################
+# ADD_THIRD_PARTY - add self builded third party
+FUNCTION ( ADD_THIRD_PARTY CMAKE_FOLDER)
+    IF ( ARGN )
+        SET ( BASE_FOLDERS ${ARGN} )
+    ELSE ( )
+        SET ( BASE_FOLDERS ${CMAKE_FOLDER} )
+    ENDIF ( )
 
-##
-function(append_warning options new_option)
-    option_check_name(${new_option} new_option_str)
-    set(new_option_str "WARNING:${new_option_str}")
+    FOREACH ( BASE_FOLDER ${BASE_FOLDERS} )
+        # some typos in the code
+        IF ( NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${BASE_FOLDER}" )
+            MESSAGE ( FATAL_ERROR "No such base folder '${BASE_FOLDER}' (for '${CMAKE_FOLDER}' cmake folder). Typo in the base folder name?")
+        ENDIF ( )
 
-    check_cxx_compiler_flag(${new_option} ${new_option_str})
+        FILE ( GLOB THIRD_PARTY_FILES "${base_folder}/*" )
 
-    if (${${new_option_str}})
-        if (${new_option} IN_LIST ${options})
-            # TODO(nikitafin): handle somehow
-        else ()
-            list(APPEND ${options} ${new_option})
-        endif ()
-    endif ()
-    return(PROPAGATE ${options})
-endfunction()
+        IF ( NOT THIRD_PARTY_FILES )
+            MESSAGE ( STATUS "submodule ${BASE_FOLDER} is missing or empty. to fix try run:" )
+            MESSAGE ( STATUS "    git submodule update --init" )
+            RETURN ( )
+        ENDIF ( )
+    ENDFOREACH ( )
+
+    MESSAGE ( STATUS "Adding third_party module ${BASE_FOLDERS} (configuring with ${CMAKE_FOLDER})")
+    ADD_SUBDIRECTORY ( ${CMAKE_FOLDER} )
+ENDFUNCTION ( )

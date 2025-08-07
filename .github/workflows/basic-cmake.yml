@@ -1,48 +1,29 @@
-name: Basic CMake pepeline
+name: Basic Pepeline
 
-on: [ push, pull_request ]
-
-env:
-  CMAKE_VERSION: "3.30.2"
+on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Git checkout
+        uses: actions/checkout@v4
         with:
-          submodules: 'true'
-
-      - name: Install deps
-        run: sudo apt-get install build-essential ninja-build libc++-dev
-      - name: Download Ninja and CMake
-        shell: cmake -P {0}
-        run: |
-          set(cmake_version $ENV{CMAKE_VERSION})
-          
-          message(STATUS "Using host CMake version: ${CMAKE_VERSION}")
-          if ("${{ runner.os }}" STREQUAL "Linux")
-            set(cmake_suffix "linux-x86_64.tar.gz")
-            set(cmake_dir "cmake-${cmake_version}-linux-x86_64/bin")
-          endif()
-          
-          set(cmake_url "https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-${cmake_suffix}")
-          file(DOWNLOAD "${cmake_url}" ./cmake.zip SHOW_PROGRESS)
-          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./cmake.zip)
-          
-          # Add to PATH environment variable
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
-          set(path_separator ":")
-          if ("${{ runner.os }}" STREQUAL "Windows")
-            set(path_separator ";")
-          endif()
-          file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
-
-          if (NOT "${{ runner.os }}" STREQUAL "Windows")
-            execute_process(
-              COMMAND chmod +x ${cmake_dir}/cmake
-            )
-          endif()
-      - name: Run Workflow
-        run: cmake --workflow --preset work-clang-testing
+          submodules: "true"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build docker image and does not push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./util/Dockerfile.ci
+          tags: ci:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: false
+          load: true
+      - name: Run pepeline-clang
+        run: make workflow-clang-ci
+      - name: Run pepeline-gcc
+        run: make workflow-gcc-ci

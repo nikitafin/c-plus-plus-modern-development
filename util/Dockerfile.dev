@@ -1,0 +1,12 @@
+FROM ubuntu:plucky-20250714
+
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y --no-install-recommends \
+    git vim \
+    build-essential ninja-build cmake \
+    gcc g++ gdb \
+    clang clang-format clang-tidy lldb \
+    libclang-rt-dev
+
+CMD ["/usr/bin/bash"]

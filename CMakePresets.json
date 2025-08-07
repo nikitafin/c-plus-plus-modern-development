@@ -1,42 +1,26 @@
 {
-  "version": 6,
+  "version": 8,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 30,
     "patch": 0
   },
+  "include": ["util/CMakeConfigurePresets.json"],
   "configurePresets": [
     {
-      "name": "conf-default",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "generator": "Ninja",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "hidden": true
-    },
-    {
-      "name": "conf-sanitizer-basic",
-      "hidden": true,
-      "cacheVariables": {
-        "PROJECT_SANITIZER_ADDRESS_ENABLED": true,
-        "PROJECT_SANITIZER_UNDEFINED_ENABLED": true
-      }
-    },
-    {
-      "name": "conf-clang",
-      "inherits": "conf-default",
-      "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_CXX_FLAGS": "-stdlib=libc++",
-        "CMAKE_LINKER_TYPE": "LLD"
-      }
-    },
-    {
-      "name": "conf-clang-testing",
-      "displayName": "Basic clang configuration for testing with address and undefined sanitizers",
+      "name": "conf-gcc-dev",
       "inherits": [
+        "conf-default",
+        "conf-dev",
+        "conf-gcc",
+        "conf-sanitizer-basic"
+      ]
+    },
+    {
+      "name": "conf-clang-dev",
+      "inherits": [
+        "conf-default",
+        "conf-dev",
         "conf-clang",
         "conf-sanitizer-basic"
       ]
@@ -44,43 +28,60 @@
   ],
   "buildPresets": [
     {
-      "name": "build-clang-testing",
-      "displayName": "Basic clang build for testing with address and undefined sanitizers",
-      "configurePreset": "conf-clang-testing",
+      "name": "build-gcc-dev",
+      "configurePreset": "conf-gcc-dev",
+      "verbose": true
+    },
+    {
+      "name": "build-clang-dev",
+      "configurePreset": "conf-clang-dev",
       "verbose": true
     }
   ],
   "testPresets": [
     {
-      "name": "test-default",
-      "hidden": true,
-      "output": {
-        "outputOnFailure": true
-      }
+      "name": "test-gcc-dev",
+      "inherits": "test-default",
+      "configurePreset": "conf-gcc-dev"
     },
     {
-      "name": "test-clang-testing",
-      "displayName": "Basic clang test for testing with address and undefined sanitizers",
+      "name": "test-clang-dev",
       "inherits": "test-default",
-      "configurePreset": "conf-clang-testing"
+      "configurePreset": "conf-clang-dev"
     }
   ],
   "workflowPresets": [
     {
-      "name": "work-clang-testing",
-      "displayName": "Basic clang workflow for testing with address and undefined sanitizers",
+      "name": "work-gcc-dev",
       "steps": [
         {
           "type": "configure",
-          "name": "conf-clang-testing"
+          "name": "conf-gcc-dev"
         },
         {
           "type": "build",
-          "name": "build-clang-testing"
+          "name": "build-gcc-dev"
         },
         {
           "type": "test",
-          "name": "test-clang-testing"
+          "name": "test-gcc-dev"
+        }
+      ]
+    },
+    {
+      "name": "work-clang-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-clang-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-clang-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-clang-dev"
         }
       ]
     }
