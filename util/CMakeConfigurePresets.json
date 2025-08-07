@@ -1,0 +1,70 @@
+{
+  "version": 8,
+  "configurePresets": [
+    {
+      "name": "conf-default",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "generator": "Ninja",
+      "warnings": {
+        "dev": false,
+        "deprecated": true,
+        "uninitialized": true,
+        "unusedCli": true,
+        "systemVars": true
+      },
+      "hidden": true
+    },
+    {
+      "name": "conf-debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "conf-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "conf-dev",
+      "hidden": true,
+      "inherits": "conf-debug",
+      "cacheVariables": {
+        "PROJECT_DEV_BUILD": "ON"
+      }
+    },
+    {
+      "name": "conf-sanitizer-basic",
+      "hidden": true,
+      "cacheVariables": {
+        "PROJECT_SANITIZER_ADDRESS_ENABLED": true,
+        "PROJECT_SANITIZER_UNDEFINED_ENABLED": true
+      }
+    },
+    {
+      "name": "conf-gcc",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "conf-clang",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-default",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

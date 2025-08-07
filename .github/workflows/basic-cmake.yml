@@ -17,11 +17,13 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./util/Dockerfile
+          file: ./util/Dockerfile.ci
           tags: dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: false
           load: true
-      - name: Run pepeline
-        run: make workflow-ci
+      - name: Run pepeline-clang
+        run: make workflow-clang-ci
+      - name: Run pepeline-gcc
+        run: make workflow-gcc-ci

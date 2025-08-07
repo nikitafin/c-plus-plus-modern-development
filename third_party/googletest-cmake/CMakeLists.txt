@@ -1,23 +1,49 @@
-set(dependency_dir "${CMAKE_SOURCE_DIR}/third_party/googletest")
+#####################################################################
+# Googletest self build
+#####################################################################
 
-add_library(third_party_gtest)
-add_library(third_party::gtest ALIAS third_party_gtest)
+SET ( GOOGLETEST_ROOT_PATH "${CMAKE_SOURCE_DIR}/third_party/googletest" )
+SET ( GOOGLETEST_PATH      ${GOOGLETEST_ROOT_PATH}/googletest           )
 
-target_sources(third_party_gtest PRIVATE "${dependency_dir}/googletest/src/gtest-all.cc")
-target_compile_definitions(third_party_gtest PUBLIC GTEST_HAS_POSIX_RE=0)
-target_include_directories(third_party_gtest SYSTEM AFTER PUBLIC "${dependency_dir}/googletest/include")
-target_include_directories(third_party_gtest SYSTEM AFTER PRIVATE "${dependency_dir}/googletest")
-set_target_properties(third_party_gtest PROPERTIES VERSION "1.15.3")
-set_target_properties(third_party_gtest PROPERTIES FOLDER "third_party")
+SET ( GOOLGETEST_SOURCES
+    ${GOOGLETEST_PATH}/src/gtest-all.cc
+)
 
-add_library(third_party_gtest_main)
-add_library(third_party::gtest_main ALIAS third_party_gtest_main)
+SET ( GOOLGETEST_MAIN_SOURCES
+    ${GOOGLETEST_PATH}/src/gtest_main.cc
+)
 
-target_sources(third_party_gtest_main PRIVATE "${dependency_dir}/googletest/src/gtest_main.cc")
-set_target_properties(third_party_gtest_main PROPERTIES VERSION "1.15.3")
-target_link_libraries(third_party_gtest_main PUBLIC third_party_gtest)
+#####################################################################
+# GTest
 
+ADD_LIBRARY ( ThirdPartyGTest ${GOOLGETEST_SOURCES}   )
+ADD_LIBRARY ( ThirdParty::GTest ALIAS ThirdPartyGTest )
 
-add_library(third_party_gtest_all INTERFACE)
-add_library(third_party::gtest_all ALIAS third_party_gtest_all)
-target_link_libraries(third_party_gtest_all INTERFACE third_party_gtest third_party_gtest_main)
+TARGET_INCLUDE_DIRECTORIES ( ThirdPartyGTest SYSTEM AFTER PUBLIC  ${GOOGLETEST_PATH}/include    )
+TARGET_INCLUDE_DIRECTORIES ( ThirdPartyGTest SYSTEM AFTER PRIVATE ${GOOGLETEST_PATH} )
+
+TARGET_COMPILE_DEFINITIONS ( ThirdPartyGTest PUBLIC GTEST_HAS_POSIX_RE=0 )
+
+SET_TARGET_PROPERTIES ( ThirdPartyGTest PROPERTIES
+    VERSION "1.15.3"
+    FOLDER "third_party"
+)
+
+#####################################################################
+# GTestMain
+ADD_LIBRARY ( ThirdPartyGTestMain ${GOOLGETEST_MAIN_SOURCES}   )
+ADD_LIBRARY ( ThirdParty::GTestMain ALIAS ThirdPartyGTestMain )
+
+TARGET_LINK_LIBRARIES ( ThirdPartyGTestMain PRIVATE ThirdParty::GTest)
+
+SET_TARGET_PROPERTIES ( ThirdPartyGTestMain PROPERTIES
+    VERSION "1.15.3"
+    FOLDER "third_party"
+)
+
+#####################################################################
+# GTestAll
+ADD_LIBRARY ( ThirdPartyGTestAll INTERFACE )
+ADD_LIBRARY ( ThirdParty::GTestAll ALIAS ThirdPartyGTestAll)
+
+TARGET_LINK_LIBRARIES ( ThirdPartyGTestAll INTERFACE ThirdParty::GTest ThirdParty::GTestMain )

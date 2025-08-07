@@ -1,35 +1,36 @@
-cmake_minimum_required(VERSION 3.30)
+#####################################################################
+# TODO ( nikitafin ) : support using this project as submodule
+CMAKE_MINIMUM_REQUIRED( VERSION 3.30 )
 
-project("project" LANGUAGES CXX)
-
+#####################################################################
 ## Default options
-# set(CMAKE_CXX_MODULE_STD ON) # waiting for clang 19
-set(CMAKE_CXX_STANDARD 26)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_SCAN_FOR_MODULES ON)
-set(CMAKE_CXX_EXTENSIONS ON)
+SET ( CMAKE_CXX_STANDARD            17  )
+SET ( CMAKE_CXX_STANDARD_REQUIRED   ON  )
+SET ( CMAKE_CXX_EXTENSIONS          OFF )
+SET ( CMAKE_EXPORT_COMPILE_COMMANDS ON  )
 
-set(CMAKE_LINK_DEPENDS_NO_SHARED ON) # Do not relink all depended targets on .so
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#####################################################################
+PROJECT( "ModernCXX" LANGUAGES CXX )
 
+#####################################################################
+# Built-in modules
+INCLUDE (GoogleTest)
+INCLUDE (CheckCXXCompilerFlag)
 
-## Built-in modules
-include(CheckCXXCompilerFlag)
-include(CheckCXXSourceCompiles)
-include(CheckLinkerFlag)
-include(CMakePrintHelpers)
-enable_testing()
+#####################################################################
+# Project modules ( do not reorder without reason )
+INCLUDE ( cmake/PreventInSourceBuild.cmake  )
+INCLUDE ( cmake/ProjectOptions.cmake        )
+INCLUDE ( cmake/Detector.cmake              )
+INCLUDE ( cmake/Utility.cmake               )
+INCLUDE ( cmake/HandleToolchain.cmake       )
+INCLUDE ( cmake/Warnings.cmake              )
+INCLUDE ( cmake/PrintInfo.cmake             )
 
-## Project modules
-# Do not reorder include
-include(cmake/PreventInSourceBuild.cmake)
-include(cmake/ProjectOptions.cmake)
-include(cmake/DetectCompiler.cmake)
-include(cmake/SanitizerSupport.cmake)
-include(cmake/Utility.cmake)
-include(cmake/Warnings.cmake)
-# include(cmake/HandleToolchain.cmake) # disable for now
-include(cmake/PrintInfo.cmake)
+IF ( BUILD_TESTING ) # TODO ( nikitafin ) : can we move this into handle toolchain file ?
+    ENABLE_TESTING ( )
+ENDIF ( )
 
-add_subdirectory(third_party)
-add_subdirectory(example)
+ADD_SUBDIRECTORY ( third_party )
+ADD_SUBDIRECTORY ( example )
+ADD_SUBDIRECTORY ( libraries )
