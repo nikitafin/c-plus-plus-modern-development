@@ -1,0 +1,4 @@
+ADD_LIBRARY ( LibraryXml2 xml.cpp xml.h )
+ADD_LIBRARY ( Library::Xml2 ALIAS LibraryXml2 )
+TARGET_INCLUDE_DIRECTORIES ( LibraryXml2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
+TARGET_LINK_LIBRARIES ( LibraryXml2 PRIVATE Utility::DisableWarnings )

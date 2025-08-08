@@ -1,6 +1,12 @@
+ADD_SUBDIRECTORY ( test_runner )
+ADD_SUBDIRECTORY ( profile     )
+
 ADD_SUBDIRECTORY ( libxml  )
 ADD_SUBDIRECTORY ( libjson )
 ADD_SUBDIRECTORY ( libini  )
+
+ADD_SUBDIRECTORY ( libxml2  )
+ADD_SUBDIRECTORY ( libjson2 )
 
 GET_ALL_TARGETS ( LIBRARY_TARGETS )
 

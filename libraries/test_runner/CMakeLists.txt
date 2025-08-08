@@ -1,0 +1,3 @@
+ADD_LIBRARY ( LibraryTestRunner INTERFACE test_runner.h )
+ADD_LIBRARY ( Library::TestRunner ALIAS LibraryTestRunner )
+TARGET_INCLUDE_DIRECTORIES ( LibraryTestRunner SYSTEM AFTER INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} )
