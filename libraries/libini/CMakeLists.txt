@@ -1,0 +1,29 @@
+ADD_LIBRARY ( LibraryIni ini.cpp ini.h )
+ADD_LIBRARY ( Library::Ini ALIAS LibraryIni )
+TARGET_INCLUDE_DIRECTORIES ( LibraryIni PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
+TARGET_LINK_LIBRARIES ( LibraryIni PRIVATE Utility::Warnings )
+SET_TARGET_PROPERTIES ( LibraryIni PROPERTIES
+    COMPILE_WARNING_AS_ERROR ON
+    LINK_WARNING_AS_ERROR    ON
+)
+
+ADD_EXECUTABLE ( UnittestLibraryIni ini_test.cpp )
+TARGET_LINK_LIBRARIES ( UnittestLibraryIni PRIVATE
+    Library::Ini
+    ThirdParty::GTestAll
+    Utility::Warnings
+)
+SET_TARGET_PROPERTIES ( UnittestLibraryIni PROPERTIES
+    COMPILE_WARNING_AS_ERROR ON
+    LINK_WARNING_AS_ERROR    ON
+)
+GTEST_ADD_TESTS ( TARGET UnittestLibraryIni )
+    
+FILE ( ARCHIVE_CREATE
+    OUTPUT "${CMAKE_BINARY_DIR}/libini.zip"
+    PATHS 
+        "${CMAKE_CURRENT_SOURCE_DIR}/ini.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/ini.h"
+    FORMAT "zip"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)

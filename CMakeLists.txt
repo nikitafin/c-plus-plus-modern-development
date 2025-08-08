@@ -9,6 +9,16 @@ SET ( CMAKE_CXX_STANDARD_REQUIRED   ON  )
 SET ( CMAKE_CXX_EXTENSIONS          OFF )
 SET ( CMAKE_EXPORT_COMPILE_COMMANDS ON  )
 
+# NOTE ( nikitafin ) : place library dll and exe in same folder
+SET ( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}" )
+SET ( CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}" )
+SET ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}" )
+
+SET ( CMAKE_SHARED_LIBRARY_PREFIX "" )
+SET ( CMAKE_STATIC_LIBRARY_PREFIX "" )
+
+SET ( CMAKE_PLATFORM_NO_VERSIONED_SONAME ON )
+
 #####################################################################
 PROJECT( "ModernCXX" LANGUAGES CXX )
 
@@ -30,6 +40,10 @@ INCLUDE ( cmake/PrintInfo.cmake             )
 IF ( BUILD_TESTING ) # TODO ( nikitafin ) : can we move this into handle toolchain file ?
     ENABLE_TESTING ( )
 ENDIF ( )
+
+#####################################################################
+# Global dependencies
+FIND_PACKAGE ( Threads REQUIRED )
 
 ADD_SUBDIRECTORY ( third_party )
 ADD_SUBDIRECTORY ( example )

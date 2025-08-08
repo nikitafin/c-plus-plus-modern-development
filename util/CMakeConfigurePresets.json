@@ -16,6 +16,26 @@
       "hidden": true
     },
     {
+      "name": "conf-windows-base",
+      "hidden": true,
+      "inherits": "conf-default",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "conf-unix-base",
+      "hidden": true,
+      "inherits": "conf-default",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
       "name": "conf-debug",
       "hidden": true,
       "cacheVariables": {
@@ -47,15 +67,25 @@
     },
     {
       "name": "conf-gcc",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "g++"
       }
     },
     {
       "name": "conf-clang",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "clang++"
       }
+    },
+    {
+      "name": "conf-development",
+      "hidden": true,
+      "inherits": [
+        "conf-dev",
+        "conf-sanitizer-basic"
+      ]
     }
   ],
   "testPresets": [

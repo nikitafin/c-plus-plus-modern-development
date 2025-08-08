@@ -2,5 +2,9 @@
     "conventionalCommits.scopes": [
         "Project",
         "BrownBelt"
+    ],
+    "clangd.arguments": [
+        "--clang-tidy",
+        "--compile-commands-dir=out/build/conf-clang-win-dev"
     ]
 }

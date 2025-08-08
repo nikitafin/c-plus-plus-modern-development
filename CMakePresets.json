@@ -5,28 +5,54 @@
     "minor": 30,
     "patch": 0
   },
-  "include": ["util/CMakeConfigurePresets.json"],
+  "include": [
+    "util/CMakeConfigurePresets.json"
+  ],
   "configurePresets": [
+    {
+      "name": "conf-gcc-win-dev",
+      "inherits": [
+        "conf-windows-base",
+        "conf-dev",
+        "conf-gcc"
+      ]
+    },
+    {
+      "name": "conf-clang-win-dev",
+      "inherits": [
+        "conf-windows-base",
+        "conf-dev",
+        "conf-clang"
+      ]
+    },
     {
       "name": "conf-gcc-dev",
       "inherits": [
-        "conf-default",
-        "conf-dev",
+        "conf-unix-base",
         "conf-gcc",
-        "conf-sanitizer-basic"
+        "conf-development"
       ]
     },
     {
       "name": "conf-clang-dev",
       "inherits": [
-        "conf-default",
-        "conf-dev",
+        "conf-unix-base",
         "conf-clang",
-        "conf-sanitizer-basic"
+        "conf-development"
       ]
     }
   ],
   "buildPresets": [
+    {
+      "name": "build-gcc-win-dev",
+      "configurePreset": "conf-gcc-win-dev",
+      "verbose": true
+    },
+    {
+      "name": "build-clang-win-dev",
+      "configurePreset": "conf-clang-win-dev",
+      "verbose": true
+    },
     {
       "name": "build-gcc-dev",
       "configurePreset": "conf-gcc-dev",
@@ -40,6 +66,16 @@
   ],
   "testPresets": [
     {
+      "name": "test-gcc-win-dev",
+      "inherits": "test-default",
+      "configurePreset": "conf-gcc-win-dev"
+    },
+    {
+      "name": "test-clang-win-dev",
+      "inherits": "test-default",
+      "configurePreset": "conf-clang-win-dev"
+    },
+    {
       "name": "test-gcc-dev",
       "inherits": "test-default",
       "configurePreset": "conf-gcc-dev"
@@ -51,6 +87,40 @@
     }
   ],
   "workflowPresets": [
+    {
+      "name": "work-gcc-win-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-gcc-win-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-gcc-win-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-gcc-win-dev"
+        }
+      ]
+    },
+    {
+      "name": "work-clang-win-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-clang-win-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-clang-win-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-clang-win-dev"
+        }
+      ]
+    },
     {
       "name": "work-gcc-dev",
       "steps": [

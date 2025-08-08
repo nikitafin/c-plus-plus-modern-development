@@ -25,7 +25,7 @@ CheckOptions:
   readability-identifier-naming.MacroDefinitionIgnoredRegexp: '^[A-Z]+(_[A-Z]+)*_$'
   readability-identifier-naming.MemberCase: lower_case
   readability-identifier-naming.PrivateMemberSuffix: _
-  readability-identifier-naming.NamespaceCase: lower_case
+  readability-identifier-naming.NamespaceCase: CamelCase 
   readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.TypeAliasCase: CamelCase
   readability-identifier-naming.TypedefCase: CamelCase
