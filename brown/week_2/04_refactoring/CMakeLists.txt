@@ -16,7 +16,7 @@ IF ( BROWN_REFACTORING_USE_GTEST )
     GTEST_ADD_TESTS ( TARGET 04_refactoring )
 ELSE ( )
     TARGET_LINK_LIBRARIES ( 04_refactoring PRIVATE Library::TestRunner)
-    ADD_TEST ( TARGET 04_refactoring )
+    ADD_TEST ( NAME 04_refactoring COMMAND 04_refactoring)
 ENDIF ( )
 
 

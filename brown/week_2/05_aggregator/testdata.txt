@@ -1,0 +1,1 @@
+5 min max sum avg mode 10 20 30 40 50
