@@ -16,6 +16,8 @@ CheckOptions:
   readability-identifier-naming.EnumConstantCase: CamelCase
   readability-identifier-naming.EnumConstantPrefix: k
   readability-identifier-naming.FunctionCase: CamelCase
+  readability-identifier-naming.FunctionIgnoredRegexp: '(.begin|.end)'
+  readability-identifier-naming.MethodIgnoredRegexp: '(.begin|.end)'
   readability-identifier-naming.GlobalConstantCase: CamelCase
   readability-identifier-naming.GlobalConstantPrefix: k
   readability-identifier-naming.StaticConstantCase: CamelCase
@@ -30,4 +32,5 @@ CheckOptions:
   readability-identifier-naming.TypeAliasCase: CamelCase
   readability-identifier-naming.TypedefCase: CamelCase
   readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.VariableIgnoredRegexp: '(it|lhs|rhs|i|j)'
   readability-identifier-naming.IgnoreMainLikeFunctions: true

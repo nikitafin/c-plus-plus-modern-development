@@ -1,0 +1,4 @@
+There are 9 adult people for maturity age 18
+There are 6 adult people for maturity age 25
+Top-5 people have total income 39319
+Most popular name among people of gender M is Ivan
