@@ -1,7 +1,8 @@
 {
     "conventionalCommits.scopes": [
         "Project",
-        "BrownBelt"
+        "BrownBelt",
+        "Git"
     ],
     "clangd.arguments": [
         "--clang-tidy",
