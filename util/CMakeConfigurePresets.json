@@ -69,7 +69,7 @@
       "name": "conf-gcc",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "g++"
+         "CMAKE_CXX_COMPILER": "g++"
       }
     },
     {
@@ -86,6 +86,16 @@
         "conf-dev",
         "conf-sanitizer-basic"
       ]
+    },
+    {
+      "name":"conf-sanitizer-thread",
+      "hidden":true,
+      "inherits":[
+        "conf-dev"
+      ],
+      "cacheVariables": {
+        "PROJECT_SANITIZER_THREAD_ENABLED": true
+      }
     }
   ],
   "testPresets": [

@@ -4,6 +4,9 @@ Checks: >
   performance-*,
   portability-*,
   readability-*,
+  -*identifier-length,
+  -*redundant-access-specifiers,
+  -*magic-numbers
 
 WarningsAsErrors: "*"
 

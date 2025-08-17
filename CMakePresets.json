@@ -40,6 +40,14 @@
         "conf-clang",
         "conf-development"
       ]
+    },
+    {
+      "name": "conf-clang-thread-sanitizer",
+      "inherits": [
+        "conf-unix-base",
+        "conf-clang",
+        "conf-sanitizer-thread"
+      ]
     }
   ],
   "buildPresets": [
@@ -61,6 +69,11 @@
     {
       "name": "build-clang-dev",
       "configurePreset": "conf-clang-dev",
+      "verbose": true
+    },
+    {
+      "name": "build-clang-thread-sanitizer",
+      "configurePreset": "conf-clang-thread-sanitizer",
       "verbose": true
     }
   ],
@@ -84,6 +97,11 @@
       "name": "test-clang-dev",
       "inherits": "test-default",
       "configurePreset": "conf-clang-dev"
+    },
+    {
+      "name": "test-clang-thread-sanitizer",
+      "inherits": "test-default",
+      "configurePreset": "conf-clang-thread-sanitizer"
     }
   ],
   "workflowPresets": [
@@ -152,6 +170,23 @@
         {
           "type": "test",
           "name": "test-clang-dev"
+        }
+      ]
+    },
+    {
+      "name": "work-clang-thread-sanitizer",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "conf-clang-thread-sanitizer"
+        },
+        {
+          "type": "build",
+          "name": "build-clang-thread-sanitizer"
+        },
+        {
+          "type": "test",
+          "name": "test-clang-thread-sanitizer"
         }
       ]
     }

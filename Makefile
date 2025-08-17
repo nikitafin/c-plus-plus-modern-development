@@ -12,6 +12,9 @@ clean:
 workflow-clang:
 	docker run -it --rm -v $(CURDIR):/src -w /src dev cmake --workflow --preset work-clang-dev
 
+workflow-clang-thread-san:
+	docker run -it --security-opt seccomp=unconfined --rm -v $(CURDIR):/src -w /src dev cmake --workflow --preset work-clang-thread-sanitizer
+
 workflow-gcc:
 	docker run -it --rm -v $(CURDIR):/src -w /src dev cmake --workflow --preset work-gcc-dev
 
