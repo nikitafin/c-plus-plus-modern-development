@@ -5,3 +5,4 @@ out/
 *_out.txt
 
 CMakeUserPresets.json
+/build/

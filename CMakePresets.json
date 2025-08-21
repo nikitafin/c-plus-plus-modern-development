@@ -34,6 +34,14 @@
       ]
     },
     {
+      "name": "conf-gcc-debug",
+      "inherits": [
+        "conf-unix-base",
+        "conf-gcc",
+        "conf-debug"
+      ]
+    },
+    {
       "name": "conf-clang-dev",
       "inherits": [
         "conf-unix-base",

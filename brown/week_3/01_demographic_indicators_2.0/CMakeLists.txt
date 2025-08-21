@@ -23,7 +23,7 @@ ADD_CUSTOM_COMMAND (
     TARGET 01_demographic_indicators_2_cli
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "Running $<TARGET_FILE_NAME:01_demographic_indicators_2_cli> ..."
-    COMMAND 01_demographic_indicators_2_cli < 1_in.txt > 1_out.txt
+    COMMAND $<TARGET_FILE_NAME:01_demographic_indicators_2_cli> < 1_in.txt > 1_out.txt
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/testdata
 )
 
